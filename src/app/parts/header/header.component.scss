@@ -1,0 +1,12 @@
+mat-toolbar {
+ display: flex;
+ gap: 3rem;
+ .link-container  {
+    display: flex;
+    gap: 1rem;
+ }
+}
+
+.active-link {
+    text-decoration: none;
+}

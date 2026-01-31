@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <span class="app-title">Minecraft Difficulty Tweaker</span>
+  <span class="link-container">
+  <a
+    mat-button
+    class="header-links"
+    *ngFor="let link of links()"
+    [routerLink]="link.path"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    {{ link.label }}
+  </a>
+  </span>
+</mat-toolbar>
