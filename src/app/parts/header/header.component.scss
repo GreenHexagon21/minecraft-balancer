@@ -1,12 +1,15 @@
 mat-toolbar {
  display: flex;
  gap: 3rem;
+ color: black;
  .link-container  {
+    color: black;
     display: flex;
     gap: 1rem;
  }
 }
 
 .active-link {
+    color: rgb(71, 71, 71);
     text-decoration: none;
 }
