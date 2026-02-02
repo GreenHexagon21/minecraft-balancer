@@ -6,11 +6,10 @@ import { CommonModule } from '@angular/common';
 type NavLink = { path: string; label: string; order: number };
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [MatToolbarModule,RouterLink,RouterLinkActive,CommonModule ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+    selector: 'app-header',
+    imports: [MatToolbarModule, RouterLink, RouterLinkActive, CommonModule],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   constructor(private router: Router) {}

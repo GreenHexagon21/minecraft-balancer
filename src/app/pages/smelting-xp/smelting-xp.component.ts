@@ -4,11 +4,10 @@ import {MatSelectModule} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-smelting-xp',
-  standalone: true,
-  imports: [MatSelectModule,FormsModule],
-  templateUrl: './smelting-xp.component.html',
-  styleUrl: './smelting-xp.component.scss',
+    selector: 'app-smelting-xp',
+    imports: [MatSelectModule, FormsModule],
+    templateUrl: './smelting-xp.component.html',
+    styleUrl: './smelting-xp.component.scss'
 })
 export class SmeltingXpComponent {
   loadedRecipe: any[] = [];

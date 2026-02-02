@@ -6,11 +6,10 @@ import { AppComponent } from '../app.component';
 import { appConfig } from '../app.config';
 bootstrapApplication(AppComponent, appConfig);
 @Component({
-  selector: 'app-main',
-  standalone: true,
-  imports: [HeaderComponent, RouterOutlet],
-  templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+    selector: 'app-main',
+    imports: [HeaderComponent, RouterOutlet],
+    templateUrl: './main.component.html',
+    styleUrl: './main.component.scss'
 })
 export class MainComponent {
 
