@@ -1,1 +1,7 @@
-<p>smelting-xp works!</p>
+    <div>
+    <mat-select [(ngModel)]="selectedRecipe" name="food">
+      @for (recipe of smeltingRecipes; track recipe) {
+        <mat-option [value]="recipe.value">{{recipe.label}}</mat-option>
+      }
+    </mat-select>
+    </div>
