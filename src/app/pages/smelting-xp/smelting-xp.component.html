@@ -1,7 +1,7 @@
-    <div>
-    <mat-select [(ngModel)]="selectedRecipe" name="food">
-      @for (recipe of smeltingRecipes; track recipe) {
-        <mat-option [value]="recipe.value">{{recipe.label}}</mat-option>
-      }
-    </mat-select>
-    </div>
+<div class="maine-container">
+  <mat-select placeholder="Select a smelting recipe" [(ngModel)]="selectedRecipe" name="recpie">
+    @for (recipe of smeltingRecipes; track recipe) {
+    <mat-option [value]="recipe.value">{{recipe.label}}</mat-option>
+    }
+  </mat-select>
+</div>

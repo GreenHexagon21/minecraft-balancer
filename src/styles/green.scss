@@ -1,0 +1,108 @@
+@use "@angular/material" as mat;
+
+
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+:root {
+
+  @include mat.theme((
+    color: (
+      primary: mat.$green-palette,
+      error: mat.$red-palette,
+    ),
+    typography: "Press Start 2P",
+    density: 0
+  ));
+
+  color-scheme: dark;
+
+  @include mat.theme-overrides((
+    primary: #43a047,
+    on-primary: #061006,
+    primary-container: #1b3d22,
+    on-primary-container: #d7ffe0,
+
+    tertiary: #8bc34a,
+    on-tertiary: #091204,
+    tertiary-container: #294a1c,
+    on-tertiary-container: #e3ffd1,
+
+    background: #0b120d,
+    on-background: #e6f5ea,
+
+    surface: #0f1711,
+    on-surface: #e6f5ea,
+    surface-container: #121d15,
+    surface-container-high: #162319,
+
+    outline: #3a5b40,
+
+    error: #e53935,
+    on-error: #200000
+  ));
+}
+
+
+.minecraft-light {
+  color-scheme: light;
+
+  @include mat.theme((
+    color: (
+      primary: mat.$green-palette,
+      error: mat.$red-palette,
+    ),
+    typography: "Press Start 2P",
+    density: 0
+  ));
+
+  @include mat.theme-overrides((
+    background: #e9f7ea,
+    on-background: #102115,
+
+    surface: #f2fbf2,
+    on-surface: #102115,
+
+    primary: #2e7d32,
+    on-primary: #ffffff,
+
+    tertiary: #7cb342,
+    on-tertiary: #0c1406,
+
+    outline: #7aa87f
+  ));
+}
+
+
+html,
+body {
+  background: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
+  font-family: var(--mat-sys-body-large-font), monospace;
+}
+
+.mat-mdc-card,
+.mat-mdc-dialog-container,
+.mat-mdc-menu-panel,
+.mat-mdc-snack-bar-container,
+.mat-mdc-form-field,
+.mat-mdc-select-panel,
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-outlined-button {
+  border-radius: 2px;
+}
+
+.mat-mdc-card,
+.mat-mdc-dialog-container,
+.mat-mdc-menu-panel {
+  border: 2px solid var(--mat-sys-outline);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35), 0 6px 0 rgba(0, 0, 0, 0.45);
+}
+
+a {
+  color: var(--mat-sys-primary);
+}
+a:hover {
+  color: var(--mat-sys-tertiary);
+}
