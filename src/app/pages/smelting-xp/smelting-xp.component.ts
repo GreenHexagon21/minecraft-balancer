@@ -12,7 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
     styleUrl: './smelting-xp.component.scss'
 })
 export class SmeltingXpComponent {
-  loadedRecipe: any[] = [];
+  loadedRecipe: any;
   jsonPath = 'recipe/';
   selectedRecipe:any;
   xp: number | string = "";
@@ -62,14 +62,34 @@ smeltingRecipes = [
 
   ngOnInit(): void {
 
+    console.log(localStorage.getItem("saved-items"));
   }
 
   recipeSelectionChanged(event:MatSelectChange) {
     this.jsonLoaderService
       .getJsonData(this.jsonPath+event.value)
       .subscribe((data: any) => {
-        this.xp = data.experience;
-        this.cookingTime = data.cookingtime;
+        this.loadedRecipe = data;
+        this.xp = this.loadedRecipe.experience;
+        this.cookingTime = this.loadedRecipe.cookingtime;
       });
+  }
+
+  save() {
+    let tempObj = this.loadedRecipe;
+    tempObj.experience = this.xp;
+    tempObj.cookingtime = this.cookingTime;
+
+    localStorage.setItem(this.selectedRecipe, JSON.stringify(tempObj));
+    let tempItems:any[]
+    if (localStorage.getItem("saved-items")) {
+      tempItems = JSON.parse(localStorage.getItem("saved-items")??"");
+    } else {
+      tempItems = [];
+    }
+    tempItems.push(this.selectedRecipe);
+    let tempSet = new Set(tempItems);
+    
+    localStorage.setItem("saved-items", JSON.stringify(Array.from(tempSet.values())));
   }
 }
