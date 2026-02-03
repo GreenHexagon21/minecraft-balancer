@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { JsonLoaderService } from '../../services/json-loader.service';
-import {MatSelectModule} from '@angular/material/select';
+import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-smelting-xp',
-    imports: [MatSelectModule, FormsModule],
+    imports: [MatSelectModule, FormsModule,MatInputModule],
     templateUrl: './smelting-xp.component.html',
     styleUrl: './smelting-xp.component.scss'
 })
@@ -13,6 +14,8 @@ export class SmeltingXpComponent {
   loadedRecipe: any[] = [];
   jsonPath = 'recipe/';
   selectedRecipe:any;
+  xp: number | undefined = undefined;
+  cookingTime: number | undefined = undefined;
 smeltingRecipes = [
   { value: "coal_from_smelting_deepslate_coal_ore.json", label: "Deepslate coal ore to coal" },
   { value: "coal_from_smelting_coal_ore.json", label: "Coal ore to coal" },
@@ -57,10 +60,15 @@ smeltingRecipes = [
   constructor(private jsonLoaderService: JsonLoaderService) {}
 
   ngOnInit(): void {
+
+  }
+
+  recipeSelectionChanged(event:MatSelectChange) {
     this.jsonLoaderService
-      .getJsonData('recipe/acacia_button.json')
+      .getJsonData(this.jsonPath+event.value)
       .subscribe((data: any) => {
-        console.log(data);
+        this.xp = data.experience;
+        this.cookingTime = data.cookingtime;
       });
   }
 }
