@@ -3,10 +3,11 @@ import { JsonLoaderService } from '../../services/json-loader.service';
 import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-smelting-xp',
-    imports: [MatSelectModule, FormsModule,MatInputModule],
+    imports: [MatSelectModule, FormsModule,MatInputModule,MatButtonModule],
     templateUrl: './smelting-xp.component.html',
     styleUrl: './smelting-xp.component.scss'
 })
@@ -14,8 +15,8 @@ export class SmeltingXpComponent {
   loadedRecipe: any[] = [];
   jsonPath = 'recipe/';
   selectedRecipe:any;
-  xp: number | undefined = undefined;
-  cookingTime: number | undefined = undefined;
+  xp: number | string = "";
+  cookingTime: number | string = "";
 smeltingRecipes = [
   { value: "coal_from_smelting_deepslate_coal_ore.json", label: "Deepslate coal ore to coal" },
   { value: "coal_from_smelting_coal_ore.json", label: "Coal ore to coal" },

@@ -1,0 +1,15 @@
+.form-fields {
+    gap: 2vh;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+}
+.smelting-container {
+    display: flex;
+    justify-content: center;
+    ::ng-deep {
+        .mat-mdc-form-field-bottom-align {
+            display: none;
+        }
+    }
+}
