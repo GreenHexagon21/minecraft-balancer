@@ -66,6 +66,13 @@ smeltingRecipes = [
   }
 
   recipeSelectionChanged(event:MatSelectChange) {
+
+    const localCopy = JSON.parse(localStorage.getItem(event.value) ?? "[]")
+    if (localCopy.length != 0) {
+      this.loadedRecipe = localCopy;
+      this.xp = localCopy.experience;
+      this.cookingTime = localCopy.cookingtime;
+    } else {
     this.jsonLoaderService
       .getJsonData(this.jsonPath+event.value)
       .subscribe((data: any) => {
@@ -73,6 +80,8 @@ smeltingRecipes = [
         this.xp = this.loadedRecipe.experience;
         this.cookingTime = this.loadedRecipe.cookingtime;
       });
+    }
+
   }
 
   save() {
@@ -83,7 +92,7 @@ smeltingRecipes = [
     localStorage.setItem(this.selectedRecipe, JSON.stringify(tempObj));
     let tempItems:any[]
     if (localStorage.getItem("saved-items")) {
-      tempItems = JSON.parse(localStorage.getItem("saved-items")??"");
+      tempItems = JSON.parse(localStorage.getItem("saved-items")??"[]");
     } else {
       tempItems = [];
     }
