@@ -1,20 +1,21 @@
 <div class="smelting-container">
-    <div class="form-fields">
-  <mat-select (selectionChange)="recipeSelectionChanged($event)" placeholder="Select a smelting recipe" [(ngModel)]="selectedRecipe" name="recpie">
-    @for (recipe of smeltingRecipes; track recipe) {
-    <mat-option [value]="recipe.value">{{recipe.label}}</mat-option>
-    }
-  </mat-select>
-  <mat-form-field class="example-form-field">
-    <mat-label>Smelting XP</mat-label>
-      <input matInput  [(ngModel)]="xp">
-  </mat-form-field>
-  <mat-form-field class="example-form-field">
-    <mat-label>Cooking Time</mat-label>
+  <div class="form-fields">
+    <mat-select (selectionChange)="recipeSelectionChanged($event)" placeholder="Select a smelting recipe"
+      [(ngModel)]="selectedRecipe" name="recpie">
+      @for (recipe of smeltingRecipes; track recipe) {
+      <mat-option [value]="recipe.value">{{recipe.label}}</mat-option>
+      }
+    </mat-select>
+    <mat-form-field class="example-form-field">
+      <mat-label>Smelting XP</mat-label>
+      <input matInput [(ngModel)]="xp">
+    </mat-form-field>
+    <mat-form-field class="example-form-field">
+      <mat-label>Cooking Time</mat-label>
       <input matInput [(ngModel)]="cookingTime">
-  </mat-form-field>
-  <button (click)="save()" matButton="filled">Save Recipe Into Datapack</button>
-  
+    </mat-form-field>
+    <button (click)="save()" matButton="filled">Save Recipe Into Datapack</button>
+
   </div>
 
 </div>
