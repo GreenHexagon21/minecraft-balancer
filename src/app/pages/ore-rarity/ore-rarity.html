@@ -1,32 +1,58 @@
 <div class="ore-container">
   <div class="form-fields">
-    <mat-select (selectionChange)="oreSelectionChanged($event)" placeholder="Select an ore feature"
-      [(ngModel)]="selectedOre" name="ore">
+    <mat-select
+      (selectionChange)="oreSelectionChanged($event)"
+      placeholder="Select an ore feature"
+      [(ngModel)]="selectedOre"
+      name="ore"
+    >
       @for (ore of oreGeneration; track ore) {
-      <mat-option [value]="ore.value">{{ore.label}}</mat-option>
+        <mat-option [value]="ore.value">{{ ore.label }}</mat-option>
       }
     </mat-select>
-    <form>
-      <mat-form-field class="example-form-field">
-        <mat-label>Rarity filter</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field class="example-form-field">
-        <mat-label>Count</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field class="example-form-field">
-        <mat-label>Max height</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field class="example-form-field">
-        <mat-label>Min height</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field class="example-form-field">
-        <mat-label>Distribution Shape</mat-label>
-        <input matInput>
-      </mat-form-field>
+
+    <form [formGroup]="filtersForm">
+      @if (isVisible('rarityFilter')) {
+        <mat-form-field class="form-field">
+          <mat-label>Rarity filter</mat-label>
+          <input formControlName="rarityFilter" matInput />
+        </mat-form-field>
+      }
+
+      @if (isVisible('count')) {
+        <mat-form-field class="form-field">
+          <mat-label>Count</mat-label>
+          <input formControlName="count" matInput />
+        </mat-form-field>
+      }
+
+      @if (isVisible('maxHeight')) {
+        <mat-form-field class="form-field">
+          <mat-label>Max height</mat-label>
+          <input formControlName="maxHeight" matInput />
+        </mat-form-field>
+      }
+
+      @if (isVisible('minHeight')) {
+        <mat-form-field class="form-field">
+          <mat-label>Min height</mat-label>
+          <input formControlName="minHeight" matInput />
+        </mat-form-field>
+      }
+
+      @if (isVisible('distributionShape')) {
+        <mat-select
+          formControlName="distributionShape"
+          placeholder="Select distribution type"
+          name="type"
+        >
+          @for (type of heightType; track type) {
+            <mat-option [value]="type.value">{{ type.label }}</mat-option>
+          }
+        </mat-select>
+      }
     </form>
+
+    <button (click)="save()" matButton="filled">Save Recipe Into Datapack</button>
   </div>
 </div>
