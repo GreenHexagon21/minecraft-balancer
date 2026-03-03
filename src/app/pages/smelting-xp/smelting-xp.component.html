@@ -2,7 +2,7 @@
   <div class="form-fields">
     <mat-select (selectionChange)="recipeSelectionChanged($event)" placeholder="Select a smelting recipe"
       [(ngModel)]="selectedRecipe" name="recpie">
-      @for (recipe of smeltingRecipes; track recipe) {
+      @for (recipe of globals.smeltingRecipes; track recipe) {
       <mat-option [value]="recipe.value">{{recipe.label}}</mat-option>
       }
     </mat-select>

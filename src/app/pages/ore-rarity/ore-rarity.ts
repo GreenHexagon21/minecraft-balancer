@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Globals } from '../../services/globals';
 
 @Component({
   selector: 'app-ore-rarity',
@@ -33,6 +34,7 @@ export class OreRarity {
   constructor(
     private jsonLoaderService: JsonLoaderService,
     private fb: FormBuilder,
+    public globals: Globals
   ) {
     this.filtersForm = this.fb.group({
       rarityFilter: [null],
@@ -55,54 +57,9 @@ export class OreRarity {
   min_height: any;
   min_type: any;
 
-  heightType = [
-    { value: 'minecraft:uniform', label: 'Universal' },
-    { value: 'minecraft:biased_to_bottom', label: 'Biased To Bottom' },
-    { value: 'minecraft:trapezoid', label: 'Trapezoid' },
-    {
-      value: 'minecraft:very_biased_to_bottom',
-      label: 'Very Biased To Bottom',
-    },
-  ];
 
-  oreGeneration = [
-    { value: 'ore_ancient_debris_large.json', label: 'Ancient debris (large)' },
-    { value: 'ore_andesite_lower.json', label: 'Andesite (lower)' },
-    { value: 'ore_andesite_upper.json', label: 'Andesite (upper)' },
-    { value: 'ore_blackstone.json', label: 'Blackstone' },
-    { value: 'ore_clay.json', label: 'Clay' },
-    { value: 'ore_coal_lower.json', label: 'Coal ore (lower)' },
-    { value: 'ore_coal_upper.json', label: 'Coal ore (upper)' },
-    { value: 'ore_copper_large.json', label: 'Copper ore (large)' },
-    { value: 'ore_copper.json', label: 'Copper ore' },
-    { value: 'ore_debris_small.json', label: 'Ancient debris (small)' },
-    { value: 'ore_diamond_buried.json', label: 'Diamond ore (buried)' },
-    { value: 'ore_diamond_large.json', label: 'Diamond ore (large)' },
-    { value: 'ore_diamond_medium.json', label: 'Diamond ore (medium)' },
-    { value: 'ore_diamond.json', label: 'Diamond ore' },
-    { value: 'ore_diorite_lower.json', label: 'Diorite (lower)' },
-    { value: 'ore_diorite_upper.json', label: 'Diorite (upper)' },
-    { value: 'ore_dirt.json', label: 'Dirt' },
-    { value: 'ore_emerald.json', label: 'Emerald ore' },
-    { value: 'ore_gold_deltas.json', label: 'Gold ore (basalt deltas)' },
-    { value: 'ore_gold_extra.json', label: 'Gold ore (extra)' },
-    { value: 'ore_gold_lower.json', label: 'Gold ore (lower)' },
-    { value: 'ore_gold_nether.json', label: 'Nether gold ore' },
-    { value: 'ore_gold.json', label: 'Gold ore' },
-    { value: 'ore_granite_lower.json', label: 'Granite (lower)' },
-    { value: 'ore_granite_upper.json', label: 'Granite (upper)' },
-    { value: 'ore_gravel_nether.json', label: 'Nether gravel' },
-    { value: 'ore_iron_middle.json', label: 'Iron ore (middle)' },
-    { value: 'ore_iron_small.json', label: 'Iron ore (small)' },
-    { value: 'ore_iron_upper.json', label: 'Iron ore (upper)' },
-    { value: 'ore_lapis_buried.json', label: 'Lapis ore (buried)' },
-    { value: 'ore_lapis.json', label: 'Lapis ore' },
-    { value: 'ore_quartz_deltas.json', label: 'Nether quartz (basalt deltas)' },
-    { value: 'ore_quartz_nether.json', label: 'Nether quartz' },
-    { value: 'ore_redstone_lower.json', label: 'Redstone ore (lower)' },
-    { value: 'ore_redstone.json', label: 'Redstone ore' },
-    { value: 'ore_tuff.json', label: 'Tuff' },
-  ];
+
+  
 
   oreSelectionChanged(event: MatSelectChange) {
     const localCopy = JSON.parse(localStorage.getItem(event.value) ?? '[]');

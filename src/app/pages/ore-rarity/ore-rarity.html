@@ -6,7 +6,7 @@
       [(ngModel)]="selectedOre"
       name="ore"
     >
-      @for (ore of oreGeneration; track ore) {
+      @for (ore of globals.oreGeneration; track ore) {
         <mat-option [value]="ore.value">{{ ore.label }}</mat-option>
       }
     </mat-select>
@@ -46,7 +46,7 @@
           placeholder="Select distribution type"
           name="type"
         >
-          @for (type of heightType; track type) {
+          @for (type of globals.heightType; track type) {
             <mat-option [value]="type.value">{{ type.label }}</mat-option>
           }
         </mat-select>

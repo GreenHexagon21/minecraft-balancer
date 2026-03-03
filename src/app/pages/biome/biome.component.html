@@ -1,1 +1,15 @@
-<p>biome works!</p>
+<div class="biome-container">
+  <div class="form-fields"> 
+    <mat-select
+      (selectionChange)="biomeSelectionChanged($event)"
+      placeholder="Select a biome"
+      [(ngModel)]="selectedBiome"
+      name="biome"
+    >
+      @for (biome of globals.biomes; track biome) {
+        <mat-option [value]="biome.value">{{ biome.label }}</mat-option>
+      }
+    </mat-select>
+    </div>
+</div>
+    
