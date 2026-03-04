@@ -8,6 +8,7 @@ import {
 import { JsonLoaderService } from '../../services/json-loader.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { Globals } from '../../services/globals';
 
@@ -17,6 +18,7 @@ import { Globals } from '../../services/globals';
   imports: [
     MatSelect,
     MatSelectModule,
+    MatCheckboxModule,
     FormsModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -31,7 +33,9 @@ export class BiomeComponent {
 
   selectedBiome: any;
   loadedBiome: any;
+  biomeFeatures: string[] = [];
 
+  oreChecks: { [key: string]: boolean } = {};
 
   constructor(
     private jsonLoaderService: JsonLoaderService,
@@ -40,32 +44,49 @@ export class BiomeComponent {
   ) {
     this.filtersForm = this.fb.group({
       rarityFilter: [null],
-      count: [null, []],
-      maxHeight: [null, []],
-      minHeight: [null, []],
+      count: [null],
+      maxHeight: [null],
+      minHeight: [null],
       distributionShape: [null],
     });
   }
 
-  biomeSelectionChanged(event:any){
-     const localCopy = JSON.parse(localStorage.getItem(event.value) ?? '[]');
+  biomeSelectionChanged(event: any) {
+    const localCopy = JSON.parse(localStorage.getItem(event.value) ?? '[]');
 
     if (localCopy.length != 0) {
       this.loadedBiome = localCopy;
       this.filtersForm.setValue(this.loadedBiome);
+      this.setOreChecks();
     } else {
       this.filtersForm.reset();
-      console.log(this.jsonPath + event.value);
 
       this.jsonLoaderService
         .getJsonData(this.jsonPath + event.value)
         .subscribe((data: any) => {
-
           this.loadedBiome = data;
-                    console.log(this.loadedBiome['features'][6]);
-
-         
+          this.setOreChecks();
         });
     }
+  }
+
+  setOreChecks() {
+    this.biomeFeatures = this.loadedBiome?.features?.[6] ?? [];
+
+    this.oreChecks = {};
+
+    for (const ore of this.globals.oreGeneration) {
+      const featureName = 'minecraft:' + ore.value.replace('.json', '');
+      this.oreChecks[ore.value] = this.biomeFeatures.includes(featureName);
+    }
+  }
+
+  updateBiomeFeatures() {
+    this.biomeFeatures = this.globals.oreGeneration
+      .filter(ore => this.oreChecks[ore.value])
+      .map(ore => 'minecraft:' + ore.value.replace('.json', ''));
+
+    this.loadedBiome['features'][6] = this.biomeFeatures;
+    console.log(this.loadedBiome['features'][6]);
   }
 }

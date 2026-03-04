@@ -1,5 +1,5 @@
 <div class="biome-container">
-  <div class="form-fields"> 
+  <div class="form-fields">
     <mat-select
       (selectionChange)="biomeSelectionChanged($event)"
       placeholder="Select a biome"
@@ -10,6 +10,16 @@
         <mat-option [value]="biome.value">{{ biome.label }}</mat-option>
       }
     </mat-select>
-    </div>
+  </div>
+
+  <div class="ore-checkboxes">
+    @for (ore of globals.oreGeneration; track ore.value) {
+      <mat-checkbox
+        [(ngModel)]="oreChecks[ore.value]"
+        (ngModelChange)="updateBiomeFeatures()"
+      >
+        {{ ore.label }}
+      </mat-checkbox>
+    }
+  </div>
 </div>
-    
