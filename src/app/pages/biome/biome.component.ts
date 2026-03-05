@@ -56,8 +56,15 @@ export class BiomeComponent {
 
     if (localCopy.length != 0) {
       this.loadedBiome = localCopy;
-      this.filtersForm.setValue(this.loadedBiome);
+      console.log(event);
+      console.log(localCopy);
+      this.jsonLoaderService
+        .getJsonData(this.jsonPath + event.value)
+        .subscribe((data: any) => {
+          this.loadedBiome = data;
+                this.loadedBiome!.features![6] = localCopy;
       this.setOreChecks();
+        });
     } else {
       this.filtersForm.reset();
 
@@ -88,5 +95,30 @@ export class BiomeComponent {
 
     this.loadedBiome['features'][6] = this.biomeFeatures;
     console.log(this.loadedBiome['features'][6]);
+  }
+
+    save() {
+    let tempObj = this.loadedBiome['features'][6];
+
+    console.log(this.loadedBiome['features'][6]);
+    localStorage.setItem(this.selectedBiome, JSON.stringify(tempObj));
+
+    let tempItems: any[];
+    if (localStorage.getItem('saved-items')) {
+      tempItems = JSON.parse(localStorage.getItem('saved-items') ?? '[]');
+    } else {
+      tempItems = [];
+    }
+
+    tempItems.push(this.selectedBiome);
+    let tempSet = new Set(tempItems);
+
+    localStorage.setItem(
+      'saved-items',
+      JSON.stringify(Array.from(tempSet.values())),
+    );
+
+    console.log(localStorage.getItem('saved-items'));
+    console.log(localStorage.getItem(this.selectedBiome));
   }
 }
