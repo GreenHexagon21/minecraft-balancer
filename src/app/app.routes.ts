@@ -3,6 +3,7 @@ import { SmeltingXpComponent } from './pages/smelting-xp/smelting-xp.component';
 import { HomeComponent } from './pages/home/home.component';
 import { OreRarity } from './pages/ore-rarity/ore-rarity';
 import { BiomeComponent } from './pages/biome/biome.component';
+import { TagSets } from './pages/tag-sets/tag-sets';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,11 @@ export const routes: Routes = [
     path: 'placed-ore',
     component: OreRarity,
     data: { nav: { label: 'Ore rarity', order: 4 }  },
+  },
+      {
+    path: 'tag-sets',
+    component: TagSets,
+    data: { nav: { label: 'Crafting Tag Set Creator', order: 5 }  },
   },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', redirectTo: 'home' },
