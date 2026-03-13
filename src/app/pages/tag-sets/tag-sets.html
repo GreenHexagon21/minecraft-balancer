@@ -1,1 +1,7 @@
 <p-select [options]="allItems" [optionLabel]="'displayName'" [lazy]="true"[virtualScroll]="true" [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="selectedItem" placeholder="Select an item" />
+<button (click)="addTag()" matButton="filled">Add tag to set</button>
+
+      @for (tag of tagList.values; track tag) {
+      <div>{{tag}}</div>
+      }
+

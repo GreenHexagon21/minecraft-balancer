@@ -6,6 +6,7 @@ import Aura from '@primeuix/themes/aura';
 
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
+import MinecraftPrimePreset from '../styles/minecraft-primeng.preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
       providePrimeNG({
             theme: {
-                preset: Aura
+                preset: MinecraftPrimePreset
             }
         })
   ],
