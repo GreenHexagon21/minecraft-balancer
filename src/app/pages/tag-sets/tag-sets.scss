@@ -1,3 +1,41 @@
 p-select {
+    margin-right: 1vw;
+    margin-bottom: 1vh;
+    width: 15vw;
+    ::ng-deep {
+        .p-select-clear-icon {
+            color: #d7ffe0;
+        }
+        .p-select-dropdown-icon {
+            color: #d7ffe0;
+        }
+    }
+}
+.delete-btn {
+    background-color: #4d0100 !important;
+    color: #ffc1c0 !important;
+}
+
+.tag-class {
+    display: flex;
+    gap: 0.2rem;
+    font-size: 1.3rem;
+    svg {
+        cursor: pointer;
+    }
+}
+.tag-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    padding: 0.3rem ;
+    border: 5px solid #294a1c;
+    border-radius: 5px;
+    max-width: min-content;
+    min-width: 20vw;
+}
+mat-form-field {
+    margin-right: 1vw;
     width: 15vw;
 }
