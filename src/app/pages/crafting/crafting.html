@@ -10,34 +10,34 @@
     <div class="crafting-row">
                   <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
             [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" [(ngModel)]="recipe[0][0]"  optionValue="name" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[0][1]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
                       <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
-            [showClear]="true" placeholder="Select an item" />
-                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[0][2]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
     </div>
         <div class="crafting-row">
                   <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[1][0]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
                       <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[1][1]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
                       <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[1][2]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
     </div>
         <div class="crafting-row">
                   <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[2][0]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
                       <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[2][1]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
                       <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
-            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [(ngModel)]="recipe[2][2]" optionValue="name" [filter]="true" filterBy="name"
             [showClear]="true" placeholder="Select an item" />
     </div>
 

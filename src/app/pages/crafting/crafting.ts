@@ -24,6 +24,7 @@ interface MinecraftCraftingShapedRecipe {
 })
 export class Crafting {
   allItems:any;
+  recipe: any = [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]]
   jsonPath = 'recipe/';
     constructor(
     private jsonLoaderService: JsonLoaderService,
@@ -36,7 +37,6 @@ export class Crafting {
       .getJsonData("items.json")
       .subscribe((data: any) => {
         this.allItems = data;
-
       });
 
 
@@ -56,13 +56,15 @@ export class Crafting {
             const patternItem = patterRow[j];
             console.log(patternItem);
             console.log(data.key[patternItem]);
+            this.recipe[i][j] = data.key[patternItem];
           }
         }
-        console.log(data);
+        
       });
       }
 
     }
+    console.log(this.recipe);
   }
 
 }
