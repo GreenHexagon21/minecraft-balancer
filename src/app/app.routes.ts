@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { OreRarity } from './pages/ore-rarity/ore-rarity';
 import { BiomeComponent } from './pages/biome/biome.component';
 import { TagSets } from './pages/tag-sets/tag-sets';
+import { Crafting } from './pages/crafting/crafting';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,11 @@ export const routes: Routes = [
     path: 'tag-sets',
     component: TagSets,
     data: { nav: { label: 'Crafting Tag Set Creator', order: 5 }  },
+  },
+        {
+    path: 'crafting-recipes',
+    component: Crafting,
+    data: { nav: { label: 'Crafting Recipes', order: 6 }  },
   },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', redirectTo: 'home' },

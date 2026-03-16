@@ -5,8 +5,11 @@
       <h4>You can edit the lists you already made by selecting it from this dropdown</h4>
       <p-select (onChange)="onLocallyStoredSelectChanged($event)" [options]="savedTagLists"
             [(ngModel)]="selectedTagList" optionLabel="name" placeholder="Select existing" class="w-full md:w-56" />
+           
       }
-      <button class="delete-btn" (click)="deleteList()" matButton="filled">Delete List</button>
+       @if (savedTagLists.length != 0 && selectedTagList) {
+             <button class="delete-btn" (click)="deleteList()" matButton="filled">Delete List</button>
+       }
 </div>
 <hr>
 <div>

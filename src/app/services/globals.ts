@@ -165,16 +165,54 @@ export class Globals {
     { value: 'windswept_savanna.json', label: 'Windswept savanna' },
     { value: 'wooded_badlands.json', label: 'Wooded badlands' },
   ];
+
+  private _tools = [
+    { value: "copper_axe.json", label: "Copper axe" },
+    { value: "copper_hoe.json", label: "Copper hoe" },
+    { value: "copper_pickaxe.json", label: "Copper pickaxe" },
+    { value: "copper_shovel.json", label: "Copper shovel" },
+    { value: "copper_sword.json", label: "Copper sword" },
+    { value: "diamond_axe.json", label: "Diamond axe" },
+    { value: "diamond_hoe.json", label: "Diamond hoe" },
+    { value: "diamond_pickaxe.json", label: "Diamond pickaxe" },
+    { value: "diamond_shovel.json", label: "Diamond shovel" },
+    { value: "diamond_sword.json", label: "Diamond sword" },
+    { value: "golden_axe.json", label: "Golden axe" },
+    { value: "golden_hoe.json", label: "Golden hoe" },
+    { value: "golden_pickaxe.json", label: "Golden pickaxe" },
+    { value: "golden_shovel.json", label: "Golden shovel" },
+    { value: "golden_sword.json", label: "Golden sword" },
+    { value: "iron_axe.json", label: "Iron axe" },
+    { value: "iron_hoe.json", label: "Iron hoe" },
+    { value: "iron_pickaxe.json", label: "Iron pickaxe" },
+    { value: "iron_shovel.json", label: "Iron shovel" },
+    { value: "iron_sword.json", label: "Iron sword" },
+    { value: "stone_axe.json", label: "Stone axe" },
+    { value: "stone_hoe.json", label: "Stone hoe" },
+    { value: "stone_pickaxe.json", label: "Stone pickaxe" },
+    { value: "stone_shovel.json", label: "Stone shovel" },
+    { value: "stone_sword.json", label: "Stone sword" },
+    { value: "wooden_axe.json", label: "Wooden axe" },
+    { value: "wooden_hoe.json", label: "Wooden hoe" },
+    { value: "wooden_pickaxe.json", label: "Wooden pickaxe" },
+    { value: "wooden_shovel.json", label: "Wooden shovel" },
+    { value: "wooden_sword.json", label: "Wooden sword" },
+  ];
   
+  public get tools() {
+    return this._tools;
+  }
+  public set tools(value) {
+    this._tools = value;
+  }
+
   public get biomes() {
     return this._biomes;
   }
 
-
   public get smeltingRecipes() {
     return this._smeltingRecipes;
   }
-
 
   public get heightType() {
     return this._heightType;

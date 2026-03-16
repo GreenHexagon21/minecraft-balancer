@@ -1,1 +1,44 @@
-<p>crafting works!</p>
+<div>
+    <p>Here you can change the crafting recipe's of tools, and also adjust what a tool is good for.</p>
+    <p>Select already existing recipe here:</p>
+    <p-select (onChange)="onCraftingRecipeSelectChanged($event)" id="itemSelect" [options]="globals.tools" [optionLabel]="'label'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+</div>
+<p>Crafting recipe:</p>
+<div class="crafting-grid">
+    <div class="crafting-row">
+                  <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+    </div>
+        <div class="crafting-row">
+                  <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+    </div>
+        <div class="crafting-row">
+                  <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+                      <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
+            [showClear]="true" placeholder="Select an item" />
+    </div>
+
+</div>

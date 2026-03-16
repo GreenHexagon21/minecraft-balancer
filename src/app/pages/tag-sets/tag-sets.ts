@@ -43,9 +43,6 @@ export class TagSets {
         this.allItems = data;
       });
       this.refreshLocalstorageLists();
-      console.log(this.savedTagLists);
-
-
   }
 
   refreshLocalstorageLists() {
@@ -54,12 +51,11 @@ export class TagSets {
       localCopy.forEach((element: string) => {
         if (element.includes(".tags")) {
           const localTagList = JSON.parse(localStorage.getItem(element) ?? "[]")
-          console.log(localTagList);
           if (!Array.isArray(localTagList)) {
             this.savedTagLists.push(localTagList);
           }
         }
-      });
+    });
   }
   onLocallyStoredSelectChanged(event:any) {
     console.log(event);
