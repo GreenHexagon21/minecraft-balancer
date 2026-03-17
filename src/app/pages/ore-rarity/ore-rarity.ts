@@ -57,10 +57,6 @@ export class OreRarity {
   min_height: any;
   min_type: any;
 
-
-
-  
-
   oreSelectionChanged(event: MatSelectChange) {
     const localCopy = JSON.parse(localStorage.getItem(event.value) ?? '[]');
 

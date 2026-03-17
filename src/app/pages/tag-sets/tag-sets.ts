@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 
-  interface TagList {
+  export interface TagList {
     name: string;
     replace: boolean;
     values: Array<string>;
@@ -28,6 +28,7 @@ export class TagSets {
   savedTagLists: Array<TagList> = [];
   currentListName: string = "";
   existingLists = [];
+  inaGameLists: Array<any> = [];
 
     constructor(
     private jsonLoaderService: JsonLoaderService,
@@ -36,14 +37,34 @@ export class TagSets {
   ) {}
 
 
-  ngOnInit(): void {
-        this.jsonLoaderService
-      .getJsonData("items.json")
+ngOnInit(): void {
+  let completed = 0;
+  const total = this.globals.tags.length;
+
+  this.globals.tags.forEach(tag => {
+    this.jsonLoaderService
+      .getJsonData("tags/item/" + tag.name + ".json")
       .subscribe((data: any) => {
-        this.allItems = data;
+        this.inaGameLists.push({
+          name: tag.displayName,
+          replace: true,
+          values: data.values
+        });
+        completed++;
+        if (completed === total) {
+          this.savedTagLists = this.savedTagLists.concat(this.inaGameLists);
+        }
       });
-      this.refreshLocalstorageLists();
-  }
+  });
+
+  this.jsonLoaderService
+    .getJsonData("items.json")
+    .subscribe((data: any) => {
+      this.allItems = data;
+    });
+
+  this.refreshLocalstorageLists();
+}
 
   refreshLocalstorageLists() {
     this.savedTagLists = [];
@@ -56,6 +77,7 @@ export class TagSets {
           }
         }
     });
+
   }
   onLocallyStoredSelectChanged(event:any) {
     console.log(event);

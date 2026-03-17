@@ -198,6 +198,45 @@ export class Globals {
     { value: "wooden_shovel.json", label: "Wooden shovel" },
     { value: "wooden_sword.json", label: "Wooden sword" },
   ];
+
+  private _tags = [
+    {
+      "name": "copper_tool_materials",
+      "displayName": "Copper Tool Materials",
+      "namespacedName": "#minecraft:copper_tool_materials"
+    },
+    {
+      "name": "diamond_tool_materials",
+      "displayName": "Diamond Tool Materials",
+      "namespacedName": "#minecraft:diamond_tool_materials"
+    },
+    {
+      "name": "gold_tool_materials",
+      "displayName": "Gold Tool Materials",
+      "namespacedName": "#minecraft:gold_tool_materials"
+    },
+    {
+      "name": "iron_tool_materials",
+      "displayName": "Iron Tool Materials",
+      "namespacedName": "#minecraft:iron_tool_materials"
+    },
+    {
+      "name": "stone_tool_materials",
+      "displayName": "Stone Tool Materials",
+      "namespacedName": "#minecraft:stone_tool_materials"
+    },
+    {
+      "name": "wooden_tool_materials",
+      "displayName": "Wooden Tool Materials",
+      "namespacedName": "#minecraft:wooden_tool_materials"
+    }
+  ];
+  public get tags() {
+    return this._tags;
+  }
+  public set tags(value) {
+    this._tags = value;
+  }
   
   public get tools() {
     return this._tools;
