@@ -92,19 +92,45 @@ export class Crafting {
     console.log(this.recipe);
   }
 
-  saveRecipe() {
-    let possibleSymbols = ["X","#","H","N","0","W","8","Z","+"];
-    let assingedSymbolCount = 0;
-    let symbolSet = new Set<object>();
-    for (let i = 0; i < this.recipe.length; i++) {
-      for (let j = 0; j < this.recipe[i].length; j++) {
-        console.log(this.recipe[i][j]);
+saveRecipe() {
+  let possibleSymbols = ["X", "#", "H", "N", "0", "W", "8", "Z", "+"];
+  let assingedSymbolCount = 0;
+  let keyPairs: any[] = [];
+  let keyDecoders: any[] = [];
+  let itemSet: Set<string> = new Set<string>();
+  let patternResult: Array<string> = ["","",""];
+
+  for (let i = 0; i < this.recipe.length; i++) {
+    for (let j = 0; j < this.recipe[i].length; j++) {
+      if (!itemSet.has(this.recipe[i][j]) && this.recipe[i][j]) {
+        itemSet.add(this.recipe[i][j]);
+        keyPairs.push({ [possibleSymbols[assingedSymbolCount]]: this.recipe[i][j] });
+        keyDecoders.push({ [this.recipe[i][j]]:  possibleSymbols[assingedSymbolCount]});
+        assingedSymbolCount++;
       }
-      
     }
-
-
   }
+
+  const result = {
+    key: Object.assign({}, ...keyPairs)
+  };
+  const decodingResult = {
+    key: Object.assign({}, ...keyDecoders)
+  };
+    for (let i = 0; i < this.recipe.length; i++) {
+    for (let j = 0; j < this.recipe[i].length; j++) {
+      console.log(decodingResult.key[this.recipe[i][j]])
+      if (this.recipe[i][j]) {
+        patternResult[i] = patternResult[i]+decodingResult.key[this.recipe[i][j]];
+      } else {
+        patternResult[i] = patternResult[i]+" "
+      }
+    }
+  }
+
+  console.log(result);
+  console.log(patternResult);
+}
 
 }
 
