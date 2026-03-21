@@ -18,7 +18,11 @@ interface MinecraftCraftingShapedRecipe {
   key: Record<string, string>;
   pattern: string[];
   result: {
-    componets?: object;
+    components?: {
+      'minecraft:tool': {
+        rules: Array<ToolRule>;
+      };
+    };
     count: number;
     id: string;
   };
@@ -45,13 +49,14 @@ interface ToolRuleEditor {
     MatButtonModule,
     MatInputModule,
     MatCheckboxModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './crafting.html',
   styleUrl: './crafting.scss',
 })
 export class Crafting {
   allItems: any;
+  justItems: any;
   recipe: any = [
     [undefined, undefined, undefined],
     [undefined, undefined, undefined],
@@ -81,6 +86,7 @@ export class Crafting {
       this.refreshLocalstorageLists();
       this.convertLocalTagLists();
       let tempItems: Array<object> = this.globals.tags.concat(data);
+      this.justItems = data;
       tempItems = tempItems.concat(this.convertedTagLists);
       this.allItems = tempItems;
     });
@@ -144,7 +150,7 @@ export class Crafting {
     let keyDecoders: any[] = [];
     let itemSet: Set<string> = new Set<string>();
     let patternResult: Array<string> = ['', '', ''];
-    let compliedRecipe: MinecraftCraftingShapedRecipe = {
+    let compiledRecipe: MinecraftCraftingShapedRecipe = {
       type: 'minecraft:crafting_shaped',
       category: 'equipment',
       key: {},
@@ -189,13 +195,28 @@ export class Crafting {
       }
     }
 
-    compliedRecipe.key = result.key;
-    compliedRecipe.pattern = patternResult;
+    compiledRecipe.key = result.key;
+    compiledRecipe.pattern = patternResult;
+    if (this.resultItem) {
+          compiledRecipe.result.id = this.resultItem;
+    }
     console.log(result);
-    console.log(compliedRecipe);
+    console.log(compiledRecipe);
 
     const minecraftToolRules: ToolRule[] = this.toolRules.map((x) => x.rule);
-    console.log(minecraftToolRules);
+    compiledRecipe.result.components ??= {
+      'minecraft:tool': {
+        rules: [],
+      },
+    };
+
+    compiledRecipe.result.components['minecraft:tool'] ??= {
+      rules: [],
+    };
+
+    compiledRecipe.result.components['minecraft:tool'].rules =
+      minecraftToolRules;
+    console.log(compiledRecipe);
   }
 
   addToolRule() {

@@ -53,8 +53,8 @@
 </div>
 <div class="bottom-part">
     <div>
-        <p>Resulting Item (don't select tag lists): </p>
-        <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true"
+        <p>Resulting Item: </p>
+        <p-select id="itemSelect" [options]="justItems" [optionLabel]="'displayName'" [lazy]="true"
             [virtualScroll]="true" [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems"
             [(ngModel)]="resultItem" optionValue="namespacedName" [filter]="true" filterBy="name" [showClear]="true"
             placeholder="Select a result item" />
@@ -80,14 +80,14 @@
             </p-select>
 
             @if (editor.mode === 'single') {
-            <p-select [options]="allItems" [optionLabel]="'displayName'" optionValue="namespacedName" [lazy]="true"
+            <p-select [options]="justItems" [optionLabel]="'displayName'" optionValue="namespacedName" [lazy]="true"
                 [virtualScroll]="true" [virtualScrollItemSize]="32" [filter]="true" filterBy="name" [showClear]="true"
                 placeholder="Select a block or tag list" [(ngModel)]="editor.rule.blocks">
             </p-select>
             }
 
             @if (editor.mode === 'multiple') {
-            <p-multiSelect [options]="allItems" optionLabel="displayName" optionValue="namespacedName" [filter]="true"
+            <p-multiSelect [options]="justItems" optionLabel="displayName" optionValue="namespacedName" [filter]="true"
                 [lazy]="true" [virtualScroll]="true" [virtualScrollItemSize]="32" filterBy="name" [showClear]="true"
                 placeholder="Select blocks or tag lists" [(ngModel)]="editor.rule.blocks" [maxSelectedLabels]="0">
             </p-multiSelect>
@@ -108,7 +108,7 @@
             </mat-checkbox>
 
             <mat-form-field class="form-field">
-                <mat-label>Mining Speed</mat-label>
+                <mat-label>Mining Speed Multiplier</mat-label>
                 <input type="number" [(ngModel)]="editor.rule.speed" matInput>
             </mat-form-field>
 
