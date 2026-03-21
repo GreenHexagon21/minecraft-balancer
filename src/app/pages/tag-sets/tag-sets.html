@@ -1,6 +1,7 @@
 <div>
-      <p>These are tag sets that can be used in crafting recipes, so instead of just one item a recipe can call for a
-            list of items. <br> For example this is how you can craft with all wood variants.</p>
+      <p>These are tag sets that can be used in crafting recipes and tool mining capabilities, so instead of just one item a recipe can call for a
+            list of items or blocks. <br> For example this is how you can craft with all wood variants, or this is how you can tell a pickaxe what blocks it can mine.</p>
+            <h4>WARNING: You should only add blocks to lists that determine what a tool can mine</h4>
       @if (savedTagLists.length != 0) {
       <h4>You can edit the lists you already made by selecting it from this dropdown</h4>
       <p-select (onChange)="onLocallyStoredSelectChanged($event)" [options]="savedTagLists"

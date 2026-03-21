@@ -30,7 +30,7 @@ export const routes: Routes = [
       {
     path: 'tag-sets',
     component: TagSets,
-    data: { nav: { label: 'Crafting Tag Set Creator', order: 5 }  },
+    data: { nav: { label: 'Tag Set Creator', order: 5 }  },
   },
         {
     path: 'crafting-recipes',

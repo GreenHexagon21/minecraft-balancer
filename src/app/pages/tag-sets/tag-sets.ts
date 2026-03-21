@@ -42,7 +42,8 @@ ngOnInit(): void {
   const total = this.globals.tags.length;
 
   this.globals.tags.forEach(tag => {
-    this.jsonLoaderService
+    if (!tag.name.includes('needs')) {
+       this.jsonLoaderService
       .getJsonData("tags/item/" + tag.name + ".json")
       .subscribe((data: any) => {
         this.inaGameLists.push({
@@ -55,6 +56,22 @@ ngOnInit(): void {
           this.savedTagLists = this.savedTagLists.concat(this.inaGameLists);
         }
       });
+    } else {
+       this.jsonLoaderService
+      .getJsonData("tags/block/" + tag.name + ".json")
+      .subscribe((data: any) => {
+        this.inaGameLists.push({
+          name: tag.displayName,
+          replace: true,
+          values: data.values
+        });
+        completed++;
+        if (completed === total) {
+          this.savedTagLists = this.savedTagLists.concat(this.inaGameLists);
+        }
+      });
+    }
+   
   });
 
   this.jsonLoaderService

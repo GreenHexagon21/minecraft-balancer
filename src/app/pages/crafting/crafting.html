@@ -3,7 +3,7 @@
     <p>Select already existing recipe here:</p>
     <p-select (onChange)="onCraftingRecipeSelectChanged($event)" id="itemSelect" [options]="globals.tools"
         [optionLabel]="'label'" [lazy]="true" [virtualScroll]="true" [virtualScrollItemSize]="32" [filter]="true"
-        filterBy="name" [showClear]="true" placeholder="Select an item" />
+        filterBy="name" [showClear]="true" placeholder="Select an recipe" />
 </div>
 <p>Crafting recipe:</p>
 <div class="crafting-grid">
@@ -51,12 +51,72 @@
     </div>
 
 </div>
-<div class="bottom-buttons">
-<button class="add-btn" (click)="saveRecipe()" matButton="filled">Save recipe</button>
-<mat-form-field class="form-field">
-    <mat-label>Your lists's name</mat-label>
-    <input matInput [(ngModel)]="newRecipeName">
-</mat-form-field>
-<button class="add-btn" (click)="saveRecipe()" matButton="filled">Save as new recipe</button>
+<div class="bottom-part">
+    <div>
+        <p>Resulting Item (don't select tag lists): </p>
+        <p-select id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true"
+            [virtualScroll]="true" [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems"
+            [(ngModel)]="resultItem" optionValue="namespacedName" [filter]="true" filterBy="name" [showClear]="true"
+            placeholder="Select a result item" />
+        <div class="bottom-buttons">
+            <mat-form-field class="form-field">
+                <mat-label>Your recipe's name</mat-label>
+                <input matInput [(ngModel)]="newRecipeName">
+            </mat-form-field>
+            <button class="add-btn" (click)="saveRecipe()" matButton="filled">Save recipe</button>
+        </div>
+    </div>
+    <div>
+        <p>Tool Mining Rules:</p>
+        <button class="add-btn" (click)="addToolRule()" matButton="filled">Add rule</button>
 
+        @for (editor of toolRules; track $index; let i = $index) {
+        <div class="tool-rule">
+            <p>Minable Block/Block Tag List/Blocks</p>
+
+            <p-select [(ngModel)]="editor.mode" [options]="ruleModes" optionLabel="label" optionValue="value"
+                [showClear]="false" placeholder="Select a mode" class="w-full md:w-56"
+                (onChange)="onToolRuleModeChange(editor)">
+            </p-select>
+
+            @if (editor.mode === 'single') {
+            <p-select [options]="allItems" [optionLabel]="'displayName'" optionValue="namespacedName" [lazy]="true"
+                [virtualScroll]="true" [virtualScrollItemSize]="32" [filter]="true" filterBy="name" [showClear]="true"
+                placeholder="Select a block or tag list" [(ngModel)]="editor.rule.blocks">
+            </p-select>
+            }
+
+            @if (editor.mode === 'multiple') {
+            <p-multiSelect [options]="allItems" optionLabel="displayName" optionValue="namespacedName" [filter]="true"
+                [lazy]="true" [virtualScroll]="true" [virtualScrollItemSize]="32" filterBy="name" [showClear]="true"
+                placeholder="Select blocks or tag lists" [(ngModel)]="editor.rule.blocks" [maxSelectedLabels]="0">
+            </p-multiSelect>
+
+            @if (isMultiBlockRule(editor) && editor.rule.blocks.length > 0) {
+            <div class="selected-items">
+                @for (selected of editor.rule.blocks; track selected) {
+                <p-chip [label]="getItemLabel(selected)" [removable]="true"
+                    (onRemove)="removeSelectedBlock(editor, selected)">
+                </p-chip>
+                }
+            </div>
+            }
+            }
+            <div class="rule-options">
+            <mat-checkbox [(ngModel)]="editor.rule.correct_for_drops" class="example-margin">
+                Correct For Drops
+            </mat-checkbox>
+
+            <mat-form-field class="form-field">
+                <mat-label>Mining Speed</mat-label>
+                <input type="number" [(ngModel)]="editor.rule.speed" matInput>
+            </mat-form-field>
+
+            <button class="add-btn" (click)="deleteRule(i)" matButton="filled">
+                Delete rule
+            </button>
+            </div>
+        </div>
+        }
+    </div>
 </div>

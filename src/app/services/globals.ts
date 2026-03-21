@@ -229,6 +229,21 @@ export class Globals {
       "name": "wooden_tool_materials",
       "displayName": "Wooden Tool Materials",
       "namespacedName": "#minecraft:wooden_tool_materials"
+    },
+    {
+      "name": "needs_stone_tool",
+      "displayName": "Needs Stone Tool",
+      "namespacedName": "#minecraft:needs_stone_tool"
+    },
+    {
+      "name": "needs_iron_tool",
+      "displayName": "Needs Iron Tool",
+      "namespacedName": "#minecraft:needs_iron_tool"
+    },
+    {
+      "name": "needs_diamond_tool",
+      "displayName": "Needs Diamond Tool",
+      "namespacedName": "#minecraft:needs_diamond_tool"
     }
   ];
   public get tags() {
