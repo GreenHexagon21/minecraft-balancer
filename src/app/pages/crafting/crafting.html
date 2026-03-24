@@ -1,7 +1,7 @@
 <div>
     <p>Here you can change the crafting recipe's of tools, and also adjust what a tool is good for.</p>
     <p>Select already existing recipe here:</p>
-    <p-select (onChange)="onCraftingRecipeSelectChanged($event)" id="itemSelect" [options]="globals.tools"
+    <p-select (onChange)="onCraftingRecipeSelectChanged($event)" (onClear)="clearRecipe()" id="itemSelect" [options]="savedRecipes"
         [optionLabel]="'label'" [lazy]="true" [virtualScroll]="true" [virtualScrollItemSize]="32" [filter]="true"
         filterBy="name" [showClear]="true" placeholder="Select an recipe" />
 </div>
@@ -67,6 +67,23 @@
         </div>
     </div>
     <div>
+         <p>Custom Tool Name</p>
+        <mat-form-field class="form-field">
+            <mat-label>Tool Name</mat-label>
+            <input matInput [(ngModel)]="customToolName">
+        </mat-form-field>
+        <p>Default Mining Speed</p>
+        <mat-form-field class="form-field">
+            <mat-label>Default mining speed</mat-label>
+            <input matInput [(ngModel)]="defaultMiningSpeed">
+        </mat-form-field>
+        <p>Damage Per Block Mined</p>
+        <mat-form-field class="form-field">
+            <mat-label>Damage per block</mat-label>
+            <input matInput [(ngModel)]="damagePerBlock">
+        </mat-form-field>
+    </div>
+    <div>
         <p>Tool Mining Rules:</p>
         <button class="add-btn" (click)="addToolRule()" matButton="filled">Add rule</button>
 
@@ -103,18 +120,18 @@
             }
             }
             <div class="rule-options">
-            <mat-checkbox [(ngModel)]="editor.rule.correct_for_drops" class="example-margin">
-                Correct For Drops
-            </mat-checkbox>
+                <mat-checkbox [(ngModel)]="editor.rule.correct_for_drops" class="example-margin">
+                    Correct For Drops
+                </mat-checkbox>
 
-            <mat-form-field class="form-field">
-                <mat-label>Mining Speed Multiplier</mat-label>
-                <input type="number" [(ngModel)]="editor.rule.speed" matInput>
-            </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-label>Mining Speed Multiplier</mat-label>
+                    <input type="number" [(ngModel)]="editor.rule.speed" matInput>
+                </mat-form-field>
 
-            <button class="add-btn" (click)="deleteRule(i)" matButton="filled">
-                Delete rule
-            </button>
+                <button class="add-btn" (click)="deleteRule(i)" matButton="filled">
+                    Delete rule
+                </button>
             </div>
         </div>
         }

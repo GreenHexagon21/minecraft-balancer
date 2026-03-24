@@ -21,7 +21,10 @@ interface MinecraftCraftingShapedRecipe {
     components?: {
       'minecraft:tool': {
         rules: Array<ToolRule>;
+        default_mining_speed: number;
+        damage_per_block: number;
       };
+      'minecraft:custom_name'?: string | undefined;
     };
     count: number;
     id: string;
@@ -65,10 +68,14 @@ export class Crafting {
   newRecipeName: string | undefined;
   jsonPath = 'recipe/';
   savedTagLists: Array<TagList> = [];
+  savedRecipes: Array<any> = [];
   convertedTagLists: Array<any> = [];
   resultItem: string | undefined;
 
   toolRules: Array<ToolRuleEditor> = [];
+  customToolName: string | undefined;
+  damagePerBlock: number = 1;
+  defaultMiningSpeed: number = 1.0;
 
   ruleModes = [
     { label: 'Single', value: 'single' },
@@ -78,7 +85,7 @@ export class Crafting {
   constructor(
     private jsonLoaderService: JsonLoaderService,
     private fb: FormBuilder,
-    public globals: Globals,
+    public globals: Globals
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +97,25 @@ export class Crafting {
       tempItems = tempItems.concat(this.convertedTagLists);
       this.allItems = tempItems;
     });
+    this.refreshLocalstorageRecipes();
+  }
+  refreshLocalstorageRecipes() {
+    this.savedRecipes = [];
+    const localCopy = JSON.parse(localStorage.getItem('saved-items') ?? '[]');
+    localCopy.forEach((element: string) => {
+      if (element.includes('.recipe')) {
+        const localRecipe = JSON.parse(localStorage.getItem(element) ?? '[]');
+        if (!Array.isArray(localRecipe)) {
+          this.savedRecipes.push({
+            value: element.replaceAll(' ', '_'),
+            label: element.replaceAll('.recipe', ''),
+          });
+          console.log(this.savedRecipes);
+        }
+      }
+    });
+    this.savedRecipes = this.savedRecipes.concat(this.globals.tools);
+    console.log(this.savedRecipes);
   }
 
   convertLocalTagLists() {
@@ -118,11 +144,29 @@ export class Crafting {
   }
 
   onCraftingRecipeSelectChanged(event: any) {
-    console.log(event);
     this.newRecipeName = event.value.label;
-    const localCopy = JSON.parse(localStorage.getItem(event.value) ?? '[]');
+    let localCopy = JSON.parse(localStorage.getItem(event.value.label) ?? '[]');
+    if (localCopy.length == 0) {
+      localCopy = JSON.parse(localStorage.getItem(event.value.label+".recipe") ?? '[]');
+    }
+    console.log(localCopy);
+    // const existingRecipe = this.globals.tools.some(
+    //   (element) => element.label === event.value.label
+    // );
+    // if (existingRecipe) {
+    //   console.log(event.value.label);
+    // }
 
     if (localCopy.length != 0) {
+      console.log(localCopy);
+            this.resultItem = localCopy.result.id;
+            for (let i = 0; i < localCopy.pattern.length; i++) {
+              const patterRow = localCopy.pattern[i];
+              for (let j = 0; j < patterRow.length; j++) {
+                const patternItem = patterRow[j];
+                this.recipe[i][j] = localCopy.key[patternItem];
+              }
+            }
     } else {
       if (event?.value?.value) {
         this.jsonLoaderService
@@ -140,7 +184,6 @@ export class Crafting {
           });
       }
     }
-    console.log(this.recipe);
   }
 
   saveRecipe() {
@@ -198,25 +241,90 @@ export class Crafting {
     compiledRecipe.key = result.key;
     compiledRecipe.pattern = patternResult;
     if (this.resultItem) {
-          compiledRecipe.result.id = this.resultItem;
+      compiledRecipe.result.id = this.resultItem;
     }
-    console.log(result);
-    console.log(compiledRecipe);
 
     const minecraftToolRules: ToolRule[] = this.toolRules.map((x) => x.rule);
     compiledRecipe.result.components ??= {
       'minecraft:tool': {
         rules: [],
+        default_mining_speed: this.defaultMiningSpeed,
+        damage_per_block: this.damagePerBlock,
       },
     };
 
     compiledRecipe.result.components['minecraft:tool'] ??= {
       rules: [],
+      default_mining_speed: this.defaultMiningSpeed,
+      damage_per_block: this.damagePerBlock,
     };
+    if (this.customToolName !== undefined && this.customToolName != '') {
+      compiledRecipe.result.components['minecraft:custom_name'] =
+        this.customToolName;
+    }
 
     compiledRecipe.result.components['minecraft:tool'].rules =
       minecraftToolRules;
     console.log(compiledRecipe);
+    const existingRecipe = this.globals.tools.some(
+      (element) => element.label === this.newRecipeName
+    );
+    if (!existingRecipe) {
+      if (this.newRecipeName) {
+        localStorage.setItem(
+          this.newRecipeName + '.recipe',
+          JSON.stringify(compiledRecipe)
+        );
+      }
+
+      let tempItems: any[];
+      if (localStorage.getItem('saved-items')) {
+        tempItems = JSON.parse(localStorage.getItem('saved-items') ?? '[]');
+      } else {
+        tempItems = [];
+      }
+
+      tempItems.push(this.newRecipeName + '.recipe');
+      let tempSet = new Set(tempItems);
+
+      localStorage.setItem(
+        'saved-items',
+        JSON.stringify(Array.from(tempSet.values()))
+      );
+    } else {
+      if (this.newRecipeName) {
+        localStorage.setItem(
+          this.newRecipeName,
+          JSON.stringify(compiledRecipe)
+        );
+      }
+
+      let tempItems: any[];
+      if (localStorage.getItem('saved-items')) {
+        tempItems = JSON.parse(localStorage.getItem('saved-items') ?? '[]');
+      } else {
+        tempItems = [];
+      }
+
+      tempItems.push(this.newRecipeName);
+      let tempSet = new Set(tempItems);
+
+      localStorage.setItem(
+        'saved-items',
+        JSON.stringify(Array.from(tempSet.values()))
+      );
+    }
+  }
+
+  clearRecipe() {
+    for (let i = 0; i < this.recipe.length; i++) {
+      const patterRow = this.recipe[i];
+      for (let j = 0; j < patterRow.length; j++) {
+        this.recipe[i][j] = undefined;
+      }
+    }
+    this.resultItem = undefined;
+    this.newRecipeName = undefined;
   }
 
   addToolRule() {
@@ -247,7 +355,7 @@ export class Crafting {
   }
 
   isMultiBlockRule(
-    editor: ToolRuleEditor,
+    editor: ToolRuleEditor
   ): editor is ToolRuleEditor & { rule: { blocks: string[] } } {
     return Array.isArray(editor.rule.blocks);
   }
@@ -258,13 +366,13 @@ export class Crafting {
     }
 
     editor.rule.blocks = editor.rule.blocks.filter(
-      (block) => block !== blockToRemove,
+      (block) => block !== blockToRemove
     );
   }
 
   getItemLabel(namespacedName: string): string {
     const item = this.allItems?.find(
-      (x: any) => x.namespacedName === namespacedName,
+      (x: any) => x.namespacedName === namespacedName
     );
 
     return item?.displayName ?? namespacedName;

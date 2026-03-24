@@ -38,7 +38,20 @@ export class TagSets {
 
 
 ngOnInit(): void {
-  let completed = 0;
+ this.makeTagList();
+
+  this.jsonLoaderService
+    .getJsonData("items.json")
+    .subscribe((data: any) => {
+      this.allItems = data;
+    });
+
+  this.refreshLocalstorageLists();
+}
+
+makeTagList() {
+  this.savedTagLists = [];
+   let completed = 0;
   const total = this.globals.tags.length;
 
   this.globals.tags.forEach(tag => {
@@ -73,18 +86,10 @@ ngOnInit(): void {
     }
    
   });
-
-  this.jsonLoaderService
-    .getJsonData("items.json")
-    .subscribe((data: any) => {
-      this.allItems = data;
-    });
-
-  this.refreshLocalstorageLists();
 }
 
   refreshLocalstorageLists() {
-    this.savedTagLists = [];
+    this.makeTagList();
     const localCopy = JSON.parse(localStorage.getItem("saved-items") ?? "[]")
       localCopy.forEach((element: string) => {
         if (element.includes(".tags")) {
