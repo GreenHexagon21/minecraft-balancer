@@ -118,7 +118,5 @@ export class BiomeComponent {
       JSON.stringify(Array.from(tempSet.values())),
     );
 
-    console.log(localStorage.getItem('saved-items'));
-    console.log(localStorage.getItem(this.selectedBiome));
   }
 }

@@ -144,12 +144,35 @@ export class Crafting {
   }
 
   onCraftingRecipeSelectChanged(event: any) {
+    this.toolRules = [];
+    this.customToolName = "";
+    this.defaultMiningSpeed = 1;
+    this.damagePerBlock = 1;
     this.newRecipeName = event.value.label;
     let localCopy = JSON.parse(localStorage.getItem(event.value.label) ?? '[]');
     if (localCopy.length == 0) {
       localCopy = JSON.parse(localStorage.getItem(event.value.label+".recipe") ?? '[]');
     }
     console.log(localCopy);
+    let localRules = localCopy["result"]["components"]["minecraft:tool"]["rules"];
+    let localTool = localCopy["result"]["components"]["minecraft:tool"];
+    this.customToolName = localCopy["result"]["components"]["minecraft:custom_name"];
+    this.damagePerBlock = localTool["damage_per_block"];
+    this.defaultMiningSpeed = localTool["default_mining_speed"];
+    let localToolRule: ToolRuleEditor;
+    localRules.forEach((rule: ToolRule) => {
+      console.log(rule);
+      if (typeof rule.blocks == typeof Array) {
+        localToolRule =  {
+          mode: 'multiple',
+          rule: rule}
+      } else {
+  localToolRule =  {
+          mode: 'single',
+          rule: rule}
+      }
+      this.toolRules.push(localToolRule);
+    });
     // const existingRecipe = this.globals.tools.some(
     //   (element) => element.label === event.value.label
     // );

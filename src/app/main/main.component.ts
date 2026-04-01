@@ -4,6 +4,7 @@ import { RouterOutlet } from "@angular/router";
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from '../app.component';
 import { appConfig } from '../app.config';
+
 bootstrapApplication(AppComponent, appConfig);
 @Component({
     selector: 'app-main',
