@@ -31,6 +31,17 @@ export class HomeComponent {
     itemsTags: []
   };
 
+  fullPath = "assets/minecraft-data/1.21.10/data/minecraft/";
+  biomePath = 'worldgen/biome/';
+  oreFeaturePath = 'worldgen/placed_feature/';
+  recipePath = 'recipe/';
+  tagItemPath = 'tags/item/';
+  tagBlockPath= 'tags/block/';
+
+
+
+
+
   constructor(
     private jsonLoaderService: JsonLoaderService,
     private fb: FormBuilder,
