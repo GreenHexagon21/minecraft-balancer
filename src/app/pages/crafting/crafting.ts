@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 
-interface MinecraftCraftingShapedRecipe {
+export interface MinecraftCraftingShapedRecipe {
   type: 'minecraft:crafting_shaped';
   category: string;
   key: Record<string, string>;
@@ -31,7 +31,7 @@ interface MinecraftCraftingShapedRecipe {
   };
 }
 
-interface ToolRule {
+export interface ToolRule {
   blocks: undefined | string | Array<string>;
   speed: number;
   correct_for_drops: boolean;
