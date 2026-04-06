@@ -1,7 +1,7 @@
 <h2>Welcome to this rudimentary Minecraft Rebalance Datapack generator!</h2>
 <p>Using this site you can adjust ore spawn rates and ranges, as well as the biomes they spawn in.</p>
 <p>You can also adjust the how to make what pickaxe and what those pickaxes can mine and how well.</p>
-<p>Lastly you can asjut the smelting xp of different ores to your liking, to make them make sense.</p>
+<p>Lastly you can adjut the smelting xp of different ores to your liking, to make them make sense.</p>
 <div class="button-container">
     <button class="add-btn" (click)="buildAndDownloadDatapackZip()" matButton="filled">
         Save datapack as zip
@@ -12,7 +12,7 @@
             <button class="add-btn"  matButton="filled">
         Import datapack from json
     </button>
-    <button class="add-btn"  matButton="filled">
+    <button class="add-btn" (click)="clearLocalStorage()" matButton="filled">
         Reset Datapack
     </button>
 </div>

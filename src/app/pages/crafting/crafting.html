@@ -1,9 +1,20 @@
 <div>
     <p>Here you can change the crafting recipe's of tools, and also adjust what a tool is good for.</p>
     <p>Select already existing recipe here:</p>
-    <p-select (onChange)="onCraftingRecipeSelectChanged($event)" (onClear)="clearRecipe()" id="itemSelect" [options]="savedRecipes"
-        [optionLabel]="'label'" [lazy]="true" [virtualScroll]="true" [virtualScrollItemSize]="32" [filter]="true"
-        filterBy="name" [showClear]="true" placeholder="Select an recipe" />
+    <p-select
+        [(ngModel)]="selectedRecipe"
+        (onChange)="onCraftingRecipeSelectChanged($event)"
+        (onClear)="clearRecipe()"
+        id="itemSelect"
+        [options]="savedRecipes"
+        [optionLabel]="'label'"
+        [lazy]="true"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="32"
+        [filter]="true"
+        filterBy="label"
+        [showClear]="true"
+        placeholder="Select an recipe" />
 </div>
 <p>Crafting recipe:</p>
 <div class="crafting-grid">

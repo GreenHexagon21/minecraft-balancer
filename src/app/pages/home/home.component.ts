@@ -58,6 +58,10 @@ export class HomeComponent {
     window.URL.revokeObjectURL(url);
   }
 
+  clearLocalStorage() {
+    localStorage.clear();
+  }
+
   async exportDatapack() {
     this.fullDatapack = {
       biomes: [],
@@ -90,7 +94,7 @@ export class HomeComponent {
         loadedBiome = await firstValueFrom(
           this.jsonLoaderService.getJsonData('worldgen/biome/' + element),
         );
-        loadedBiome.features[6] = localCopy;
+        loadedBiome.features[7] = localCopy;
         this.fullDatapack.biomes.push({ name: element, value: loadedBiome });
       }
 
