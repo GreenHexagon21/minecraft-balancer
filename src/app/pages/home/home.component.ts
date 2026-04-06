@@ -277,12 +277,12 @@ for (const element of this.fullDatapack.oreFeatures) {
       (element) => element.displayName == cleaned,
     );
       if (existingRecipe) {
-        return existingRecipe.value;
+        return existingRecipe.value.replaceAll(' ','_').toLowerCase();
       }
       if (existingTag) {
-        return existingTag.name+".json";
+        return (existingTag.name+".json").replaceAll(' ','_').toLowerCase();;
       }
-    return cleaned+".json"
+    return (cleaned+".json").replaceAll(' ','_').toLowerCase();
 
   }
 removeNullValues<T>(input: T): T {
