@@ -301,7 +301,6 @@ removeNullValues<T>(input: T): T {
 
         const cleanedValue = this.removeNullValues(value);
 
-        // Optional: remove empty objects/arrays as well
         if (
           cleanedValue !== null &&
           !(typeof cleanedValue === 'object' && Object.keys(cleanedValue).length === 0)
