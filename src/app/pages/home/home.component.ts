@@ -9,12 +9,17 @@ import { firstValueFrom } from 'rxjs';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
+interface DatapackEntry {
+  name: string;
+  value: any;
+}
+
 interface DatapackObject {
-  biomes: Array<any>;
-  smeltingRecipes: Array<any>;
-  craftingRecipes: Array<any>;
-  oreFeatures: Array<any>;
-  itemsTags: Array<any>;
+  biomes: Array<DatapackEntry>;
+  smeltingRecipes: Array<DatapackEntry>;
+  craftingRecipes: Array<DatapackEntry>;
+  oreFeatures: Array<DatapackEntry>;
+  itemsTags: Array<DatapackEntry>;
 }
 
 @Component({
@@ -60,6 +65,90 @@ export class HomeComponent {
 
   clearLocalStorage() {
     localStorage.clear();
+  }
+
+  async importDatapackFromJson(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      const fileText = await file.text();
+      const importedDatapack: DatapackObject = JSON.parse(fileText);
+
+      this.validateImportedDatapack(importedDatapack);
+
+      // Overwrite current saved datapack state
+      localStorage.clear();
+
+      const savedItems: string[] = [];
+
+      // Ore features: stored directly
+      for (const entry of importedDatapack.oreFeatures ?? []) {
+        localStorage.setItem(entry.name, JSON.stringify(entry.value));
+        savedItems.push(entry.name);
+      }
+
+      // Biomes: app expects features[7] in localStorage, not the full biome json
+      for (const entry of importedDatapack.biomes ?? []) {
+        const biomeValue = entry.value?.features?.[7] ?? entry.value;
+        localStorage.setItem(entry.name, JSON.stringify(biomeValue));
+        savedItems.push(entry.name);
+      }
+
+      // Smelting recipes: stored directly
+      for (const entry of importedDatapack.smeltingRecipes ?? []) {
+        localStorage.setItem(entry.name, JSON.stringify(entry.value));
+        savedItems.push(entry.name);
+      }
+
+      // Crafting recipes: stored directly
+      for (const entry of importedDatapack.craftingRecipes ?? []) {
+        localStorage.setItem(entry.name, JSON.stringify(entry.value));
+        savedItems.push(entry.name);
+      }
+
+      // Item tags: stored directly
+      for (const entry of importedDatapack.itemsTags ?? []) {
+        localStorage.setItem(entry.name, JSON.stringify(entry.value));
+        savedItems.push(entry.name);
+      }
+
+      localStorage.setItem('saved-items', JSON.stringify([...new Set(savedItems)]));
+
+      this.fullDatapack = importedDatapack;
+
+      console.log('Datapack imported successfully.');
+    } catch (error) {
+      console.error('Failed to import datapack JSON:', error);
+      alert('Invalid datapack JSON file.');
+    } finally {
+      // Reset the file input so the same file can be chosen again later
+      input.value = '';
+    }
+  }
+
+  validateImportedDatapack(data: any): asserts data is DatapackObject {
+    if (!data || typeof data !== 'object') {
+      throw new Error('Imported file is not a valid object.');
+    }
+
+    const requiredKeys: Array<keyof DatapackObject> = [
+      'biomes',
+      'smeltingRecipes',
+      'craftingRecipes',
+      'oreFeatures',
+      'itemsTags',
+    ];
+
+    for (const key of requiredKeys) {
+      if (!Array.isArray(data[key])) {
+        throw new Error(`Missing or invalid "${key}" array.`);
+      }
+    }
   }
 
   async exportDatapack() {
@@ -148,122 +237,122 @@ export class HomeComponent {
     await this.exportDatapack();
     this.downloadFullDatapackJson();
   }
- async buildAndDownloadDatapackZip() {
-  await this.exportDatapack();
 
-  const zip = new JSZip();
-const packMcmeta = {
-  pack: {
-    description: 'Minecraft Rebalance Datapack',
-    min_format: 82,
-    max_format: 88,
-  },
-};
+  async buildAndDownloadDatapackZip() {
+    await this.exportDatapack();
 
-  zip.file('pack.mcmeta', JSON.stringify(packMcmeta, null, 2));
-  const root = zip.folder('data')?.folder('minecraft');
+    const zip = new JSZip();
+    const packMcmeta = {
+      pack: {
+        description: 'Minecraft Rebalance Datapack',
+        min_format: 82,
+        max_format: 88,
+      },
+    };
 
-  if (!root) {
-    return;
-  }
+    zip.file('pack.mcmeta', JSON.stringify(packMcmeta, null, 2));
+    const root = zip.folder('data')?.folder('minecraft');
 
-  const biomeFolder = root.folder('worldgen')?.folder('biome');
-  const placedFeatureFolder = root.folder('worldgen')?.folder('placed_feature');
-  const recipeFolder = root.folder('recipe');
-  const itemTagFolder = root.folder('tags')?.folder('item');
-  const blockTagFolder = root.folder('tags')?.folder('block');
-
-  if (
-    !biomeFolder ||
-    !placedFeatureFolder ||
-    !recipeFolder ||
-    !itemTagFolder ||
-    !blockTagFolder
-  ) {
-    return;
-  }
-
-  for (const element of this.fullDatapack.biomes) {
-    const fileName = this.fileNameProcessor(element.name);
-    biomeFolder.file(
-      fileName,
-      JSON.stringify(element.value, null, 2),
-    );
-  }
-
-  for (const element of this.fullDatapack.smeltingRecipes) {
-    const fileName = this.fileNameProcessor(element.name);
-    recipeFolder.file(
-      fileName,
-      JSON.stringify(this.removeNullValues(element.value), null, 2),
-    );
-  }
-
-  for (const element of this.fullDatapack.craftingRecipes) {
-    const fileName = this.fileNameProcessor(element.name);
-    recipeFolder.file(
-      fileName,
-      JSON.stringify(this.removeNullValues(element.value), null, 2),
-    );
-  }
-
-for (const element of this.fullDatapack.oreFeatures) {
-  const fileName = this.fileNameProcessor(element.name);
-
-  const data: any = await firstValueFrom(
-    this.jsonLoaderService.getJsonData(this.oreFeaturePath + element.name)
-  );
-
-  const countValue = Number(element.value.count);
-  const minHeightValue = Number(element.value.minHeight);
-  const maxHeightValue = Number(element.value.maxHeight);
-  const rarityValue =
-    element.value.rarityFilter !== null && element.value.rarityFilter !== undefined
-      ? Number(element.value.rarityFilter)
-      : null;
-
-  data.placement.forEach((place: any) => {
-    if (place.type === 'minecraft:count') {
-
-      place.count = countValue;
+    if (!root) {
+      return;
     }
 
-    if (place.type === 'minecraft:height_range') {
-      place.height = {
-        type: element.value.distributionShape,
-        min_inclusive: {
-          absolute: minHeightValue,
-        },
-        max_inclusive: {
-          absolute: maxHeightValue,
-        },
-      };
+    const biomeFolder = root.folder('worldgen')?.folder('biome');
+    const placedFeatureFolder = root.folder('worldgen')?.folder('placed_feature');
+    const recipeFolder = root.folder('recipe');
+    const itemTagFolder = root.folder('tags')?.folder('item');
+    const blockTagFolder = root.folder('tags')?.folder('block');
+
+    if (
+      !biomeFolder ||
+      !placedFeatureFolder ||
+      !recipeFolder ||
+      !itemTagFolder ||
+      !blockTagFolder
+    ) {
+      return;
     }
 
-    if (place.type === 'minecraft:rarity_filter') {
-      if (rarityValue !== null && !Number.isNaN(rarityValue)) {
-        place.chance = rarityValue;
-      }
+    for (const element of this.fullDatapack.biomes) {
+      const fileName = this.fileNameProcessor(element.name);
+      biomeFolder.file(
+        fileName,
+        JSON.stringify(element.value, null, 2),
+      );
     }
-  });
 
-  placedFeatureFolder.file(
-    fileName,
-    JSON.stringify(this.removeNullValues(data), null, 2),
-  );
-}
+    for (const element of this.fullDatapack.smeltingRecipes) {
+      const fileName = this.fileNameProcessor(element.name);
+      recipeFolder.file(
+        fileName,
+        JSON.stringify(this.removeNullValues(element.value), null, 2),
+      );
+    }
 
-  for (const element of this.fullDatapack.itemsTags) {
-    const fileName = this.fileNameProcessor(element.name);
-    itemTagFolder.file(
-      fileName,
-      JSON.stringify(this.removeNullValues(element.value), null, 2),
-    );
+    for (const element of this.fullDatapack.craftingRecipes) {
+      const fileName = this.fileNameProcessor(element.name);
+      recipeFolder.file(
+        fileName,
+        JSON.stringify(this.removeNullValues(element.value), null, 2),
+      );
+    }
+
+    for (const element of this.fullDatapack.oreFeatures) {
+      const fileName = this.fileNameProcessor(element.name);
+
+      const data: any = await firstValueFrom(
+        this.jsonLoaderService.getJsonData(this.oreFeaturePath + element.name)
+      );
+
+      const countValue = Number(element.value.count);
+      const minHeightValue = Number(element.value.minHeight);
+      const maxHeightValue = Number(element.value.maxHeight);
+      const rarityValue =
+        element.value.rarityFilter !== null && element.value.rarityFilter !== undefined
+          ? Number(element.value.rarityFilter)
+          : null;
+
+      data.placement.forEach((place: any) => {
+        if (place.type === 'minecraft:count') {
+          place.count = countValue;
+        }
+
+        if (place.type === 'minecraft:height_range') {
+          place.height = {
+            type: element.value.distributionShape,
+            min_inclusive: {
+              absolute: minHeightValue,
+            },
+            max_inclusive: {
+              absolute: maxHeightValue,
+            },
+          };
+        }
+
+        if (place.type === 'minecraft:rarity_filter') {
+          if (rarityValue !== null && !Number.isNaN(rarityValue)) {
+            place.chance = rarityValue;
+          }
+        }
+      });
+
+      placedFeatureFolder.file(
+        fileName,
+        JSON.stringify(this.removeNullValues(data), null, 2),
+      );
+    }
+
+    for (const element of this.fullDatapack.itemsTags) {
+      const fileName = this.fileNameProcessor(element.name);
+      itemTagFolder.file(
+        fileName,
+        JSON.stringify(this.removeNullValues(element.value), null, 2),
+      );
+    }
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    saveAs(blob, 'minecraft-rebalance-datapack.zip');
   }
-
-  const blob = await zip.generateAsync({ type: 'blob' });
-  saveAs(blob, 'minecraft-rebalance-datapack.zip');
-}
 
   fileNameProcessor(name: string) {
     const existingRecipe = this.globals.tools.find(
@@ -276,42 +365,42 @@ for (const element of this.fullDatapack.oreFeatures) {
     const existingTag = this.globals.tags.find(
       (element) => element.displayName == cleaned,
     );
-      if (existingRecipe) {
-        return existingRecipe.value.replaceAll(' ','_').toLowerCase();
-      }
-      if (existingTag) {
-        return (existingTag.name+".json").replaceAll(' ','_').toLowerCase();;
-      }
-    return (cleaned+".json").replaceAll(' ','_').toLowerCase();
-
-  }
-removeNullValues<T>(input: T): T {
-  if (Array.isArray(input)) {
-    return input
-      .map(item => this.removeNullValues(item))
-      .filter(item => item !== null) as unknown as T;
+    if (existingRecipe) {
+      return existingRecipe.value.replaceAll(' ', '_').toLowerCase();
+    }
+    if (existingTag) {
+      return (existingTag.name + '.json').replaceAll(' ', '_').toLowerCase();
+    }
+    return (cleaned + '.json').replaceAll(' ', '_').toLowerCase();
   }
 
-  if (input !== null && typeof input === 'object') {
-    return Object.entries(input as Record<string, any>)
-      .reduce((acc, [key, value]) => {
-        if (value === null) {
+  removeNullValues<T>(input: T): T {
+    if (Array.isArray(input)) {
+      return input
+        .map(item => this.removeNullValues(item))
+        .filter(item => item !== null) as unknown as T;
+    }
+
+    if (input !== null && typeof input === 'object') {
+      return Object.entries(input as Record<string, any>)
+        .reduce((acc, [key, value]) => {
+          if (value === null) {
+            return acc;
+          }
+
+          const cleanedValue = this.removeNullValues(value);
+
+          if (
+            cleanedValue !== null &&
+            !(typeof cleanedValue === 'object' && Object.keys(cleanedValue).length === 0)
+          ) {
+            acc[key] = cleanedValue;
+          }
+
           return acc;
-        }
+        }, {} as Record<string, any>) as T;
+    }
 
-        const cleanedValue = this.removeNullValues(value);
-
-        if (
-          cleanedValue !== null &&
-          !(typeof cleanedValue === 'object' && Object.keys(cleanedValue).length === 0)
-        ) {
-          acc[key] = cleanedValue;
-        }
-
-        return acc;
-      }, {} as Record<string, any>) as T;
+    return input;
   }
-
-  return input;
-}
 }
