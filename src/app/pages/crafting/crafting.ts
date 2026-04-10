@@ -142,7 +142,6 @@ export class Crafting {
         if (!Array.isArray(localTagList)) {
           this.savedTagLists.push(localTagList);
         }
-                console.log(localTagList)
       }
     });
   }
