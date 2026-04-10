@@ -81,37 +81,32 @@ export class HomeComponent {
 
       this.validateImportedDatapack(importedDatapack);
 
-      // Overwrite current saved datapack state
       localStorage.clear();
 
       const savedItems: string[] = [];
 
-      // Ore features: stored directly
+
       for (const entry of importedDatapack.oreFeatures ?? []) {
         localStorage.setItem(entry.name, JSON.stringify(entry.value));
         savedItems.push(entry.name);
       }
 
-      // Biomes: app expects features[7] in localStorage, not the full biome json
       for (const entry of importedDatapack.biomes ?? []) {
         const biomeValue = entry.value?.features?.[7] ?? entry.value;
         localStorage.setItem(entry.name, JSON.stringify(biomeValue));
         savedItems.push(entry.name);
       }
 
-      // Smelting recipes: stored directly
       for (const entry of importedDatapack.smeltingRecipes ?? []) {
         localStorage.setItem(entry.name, JSON.stringify(entry.value));
         savedItems.push(entry.name);
       }
 
-      // Crafting recipes: stored directly
       for (const entry of importedDatapack.craftingRecipes ?? []) {
         localStorage.setItem(entry.name, JSON.stringify(entry.value));
         savedItems.push(entry.name);
       }
 
-      // Item tags: stored directly
       for (const entry of importedDatapack.itemsTags ?? []) {
         localStorage.setItem(entry.name, JSON.stringify(entry.value));
         savedItems.push(entry.name);
@@ -126,7 +121,6 @@ export class HomeComponent {
       console.error('Failed to import datapack JSON:', error);
       alert('Invalid datapack JSON file.');
     } finally {
-      // Reset the file input so the same file can be chosen again later
       input.value = '';
     }
   }
@@ -344,7 +338,7 @@ export class HomeComponent {
 
     for (const element of this.fullDatapack.itemsTags) {
       const fileName = this.fileNameProcessor(element.name);
-      itemTagFolder.file(
+      blockTagFolder.file(
         fileName,
         JSON.stringify(this.removeNullValues(element.value), null, 2),
       );

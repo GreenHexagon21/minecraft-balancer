@@ -127,7 +127,7 @@ export class Crafting {
         name: tagList.name,
         displayName: tagList.name,
         stackSize: -1,
-        namespacedName: 'minecraft:' + tagList.name,
+        namespacedName: '#minecraft:' + tagList.name,
       });
     });
   }
@@ -137,10 +137,12 @@ export class Crafting {
     const localCopy = JSON.parse(localStorage.getItem('saved-items') ?? '[]');
     localCopy.forEach((element: string) => {
       if (element.includes('.tags')) {
-        const localTagList = JSON.parse(localStorage.getItem(element) ?? '[]');
+        let localTagList = JSON.parse(localStorage.getItem(element) ?? '[]');
+        localTagList.name = localTagList.name 
         if (!Array.isArray(localTagList)) {
           this.savedTagLists.push(localTagList);
         }
+                console.log(localTagList)
       }
     });
   }
@@ -449,5 +451,9 @@ export class Crafting {
     );
 
     return item?.displayName ?? namespacedName;
+  }
+
+  onSelectChanged(event:any) {
+    console.log(event);
   }
 }

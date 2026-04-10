@@ -108,14 +108,14 @@
             </p-select>
 
             @if (editor.mode === 'single') {
-            <p-select [options]="allItems" [optionLabel]="'displayName'" optionValue="namespacedName" [lazy]="true"
+            <p-select (onChange)="onSelectChanged($event)"  [options]="allItems" [optionLabel]="'displayName'" optionValue="namespacedName" [lazy]="true"
                 [virtualScroll]="true" [virtualScrollItemSize]="32" [filter]="true" filterBy="name" [showClear]="true"
                 placeholder="Select a block or tag list" [(ngModel)]="editor.rule.blocks">
             </p-select>
             }
 
             @if (editor.mode === 'multiple') {
-            <p-multiSelect [options]="allItems" optionLabel="displayName" optionValue="namespacedName" [filter]="true"
+            <p-multiSelect (onChange)="onSelectChanged($event)" [options]="allItems" optionLabel="displayName" optionValue="namespacedName" [filter]="true"
                 [lazy]="true" [virtualScroll]="true" [virtualScrollItemSize]="32" filterBy="name" [showClear]="true"
                 placeholder="Select blocks or tag lists" [(ngModel)]="editor.rule.blocks" [maxSelectedLabels]="0">
             </p-multiSelect>
