@@ -5,6 +5,7 @@ import { OreRarity } from './pages/ore-rarity/ore-rarity';
 import { BiomeComponent } from './pages/biome/biome.component';
 import { TagSets } from './pages/tag-sets/tag-sets';
 import { Crafting } from './pages/crafting/crafting';
+import { OreSize } from './pages/ore-size/ore-size';
 
 export const routes: Routes = [
   {
@@ -28,14 +29,19 @@ export const routes: Routes = [
     data: { nav: { label: 'Ore rarity', order: 4 }  },
   },
       {
+    path: 'configured-ore',
+    component: OreSize,
+    data: { nav: { label: 'Ore size', order: 5 }  },
+  },
+      {
     path: 'tag-sets',
     component: TagSets,
-    data: { nav: { label: 'Tag Set Creator', order: 5 }  },
+    data: { nav: { label: 'Tag Set Creator', order: 6 }  },
   },
-        {
+  {
     path: 'crafting-recipes',
     component: Crafting,
-    data: { nav: { label: 'Crafting Recipes', order: 6 }  },
+    data: { nav: { label: 'Crafting Recipes', order: 7 }  },
   },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', redirectTo: 'home' },
