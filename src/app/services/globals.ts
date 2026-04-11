@@ -44,6 +44,48 @@ export class Globals {
     { value: 'ore_tuff.json', label: 'Tuff' },
   ];
 
+
+  private _oreSize = [
+    { value: 'ore_ancient_debris_large.json', label: 'Ancient debris (large)' },
+    { value: 'ore_ancient_debris_small.json', label: 'Ancient debris (small)' },
+    { value: 'ore_andesite.json', label: 'Andesite' },
+    { value: 'ore_blackstone.json', label: 'Blackstone' },
+    { value: 'ore_clay.json', label: 'Clay' },
+    { value: 'ore_coal_buried.json', label: 'Coal (buried)' },
+    { value: 'ore_coal.json', label: 'Coal' },
+    { value: 'ore_copper_large.json', label: 'Copper (large)' },
+    { value: 'ore_copper_small.json', label: 'Copper (small)' },
+    { value: 'ore_diamond_buried.json', label: 'Diamond (buried)' },
+    { value: 'ore_diamond_large.json', label: 'Diamond (large)' },
+    { value: 'ore_diamond_medium.json', label: 'Diamond (medium)' },
+    { value: 'ore_diamond_small.json', label: 'Diamond (small)' },
+    { value: 'ore_diorite.json', label: 'Diorite' },
+    { value: 'ore_dirt.json', label: 'Dirt' },
+    { value: 'ore_emerald.json', label: 'Emerald' },
+    { value: 'ore_gold_buried.json', label: 'Gold (buried)' },
+    { value: 'ore_gold.json', label: 'Gold' },
+    { value: 'ore_granite.json', label: 'Granite' },
+    { value: 'ore_gravel_nether.json', label: 'Gravel (nether)' },
+    { value: 'ore_gravel.json', label: 'Gravel' },
+    { value: 'ore_infested.json', label: 'Infested' },
+    { value: 'ore_iron_small.json', label: 'Iron (small)' },
+    { value: 'ore_iron.json', label: 'Iron' },
+    { value: 'ore_lapis_buried.json', label: 'Lapis (buried)' },
+    { value: 'ore_lapis.json', label: 'Lapis' },
+    { value: 'ore_magma.json', label: 'Magma' },
+    { value: 'ore_nether_gold.json', label: 'Nether gold' },
+    { value: 'ore_quartz.json', label: 'Quartz' },
+    { value: 'ore_redstone.json', label: 'Redstone' },
+    { value: 'ore_soul_sand.json', label: 'Soul sand' },
+    { value: 'ore_tuff.json', label: 'Tuff' },
+  ];
+  public get oreSize() {
+    return this._oreSize;
+  }
+  public set oreSize(value) {
+    this._oreSize = value;
+  }
+
     private _heightType = [
     { value: 'minecraft:uniform', label: 'Universal' },
     { value: 'minecraft:biased_to_bottom', label: 'Biased To Bottom' },

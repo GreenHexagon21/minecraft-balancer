@@ -12,44 +12,18 @@
     </mat-select>
 
     <form [formGroup]="filtersForm">
-      @if (isVisible('rarityFilter')) {
+      @if (isVisible('size')) {
         <mat-form-field class="form-field full-width">
-          <mat-label>Rarity filter</mat-label>
-          <input formControlName="rarityFilter" matInput />
+          <mat-label>Ore size</mat-label>
+          <input formControlName="size" matInput />
         </mat-form-field>
       }
 
-      @if (isVisible('count')) {
+      @if (isVisible('discardChanceOnAirExposure')) {
         <mat-form-field class="form-field full-width">
           <mat-label>Count</mat-label>
-          <input formControlName="count" matInput />
+          <input formControlName="discardChanceOnAirExposure" matInput />
         </mat-form-field>
-      }
-
-      @if (isVisible('maxHeight')) {
-        <mat-form-field class="form-field">
-          <mat-label>Max height</mat-label>
-          <input formControlName="maxHeight" matInput />
-        </mat-form-field>
-      }
-
-      @if (isVisible('minHeight')) {
-        <mat-form-field class="form-field">
-          <mat-label>Min height</mat-label>
-          <input formControlName="minHeight" matInput />
-        </mat-form-field>
-      }
-
-      @if (isVisible('distributionShape')) {
-        <mat-select
-          formControlName="distributionShape"
-          placeholder="Select distribution type"
-          name="type"
-        >
-          @for (type of globals.heightType; track type) {
-            <mat-option [value]="type.value">{{ type.label }}</mat-option>
-          }
-        </mat-select>
       }
     </form>
 
