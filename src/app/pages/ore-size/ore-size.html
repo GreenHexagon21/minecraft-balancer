@@ -2,11 +2,11 @@
   <div class="form-fields">
     <mat-select
       (selectionChange)="oreSelectionChanged($event)"
-      placeholder="Select an ore feature"
+      placeholder="Select an configured ore"
       [(ngModel)]="selectedOre"
       name="ore"
     >
-      @for (ore of globals.oreGeneration; track ore) {
+      @for (ore of globals.oreSize; track ore) {
         <mat-option [value]="ore.value">{{ ore.label }}</mat-option>
       }
     </mat-select>
@@ -21,12 +21,12 @@
 
       @if (isVisible('discardChanceOnAirExposure')) {
         <mat-form-field class="form-field full-width">
-          <mat-label>Count</mat-label>
+          <mat-label>Chance to discard on contact with air</mat-label>
           <input formControlName="discardChanceOnAirExposure" matInput />
         </mat-form-field>
       }
     </form>
 
-    <button (click)="save()" matButton="filled">Save Recipe Into Datapack</button>
+    <button (click)="save()" matButton="filled">Save Ore Size Into Datapack</button>
   </div>
 </div>

@@ -19,6 +19,7 @@ interface DatapackObject {
   smeltingRecipes: Array<DatapackEntry>;
   craftingRecipes: Array<DatapackEntry>;
   oreFeatures: Array<DatapackEntry>;
+  oreSizes:Array<DatapackEntry>;
   itemsTags: Array<DatapackEntry>;
 }
 
@@ -34,6 +35,7 @@ export class HomeComponent {
     smeltingRecipes: [],
     craftingRecipes: [],
     oreFeatures: [],
+    oreSizes:[],
     itemsTags: [],
   };
 
@@ -151,6 +153,7 @@ export class HomeComponent {
       smeltingRecipes: [],
       craftingRecipes: [],
       oreFeatures: [],
+      oreSizes: [],
       itemsTags: [],
     };
 
