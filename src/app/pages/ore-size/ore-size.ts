@@ -42,7 +42,7 @@ export class OreSize {
 
   oreSelectionChanged(event: MatSelectChange) {
     console.log(event);
-    const localCopy = JSON.parse(localStorage.getItem(event.value) ?? '[]');
+    const localCopy = JSON.parse(localStorage.getItem(event.value+'.size') ?? '[]');
 if (localCopy.length != 0) {
       this.loadedOre = localCopy;
       this.filtersForm.setValue(this.loadedOre);
