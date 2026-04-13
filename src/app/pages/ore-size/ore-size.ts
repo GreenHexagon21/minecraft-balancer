@@ -65,7 +65,7 @@ if (localCopy.length != 0) {
 let tempObj = this.filtersForm.value;
 
     console.log(this.filtersForm.value);
-        localStorage.setItem(this.selectedOre, JSON.stringify(tempObj));
+        localStorage.setItem(this.selectedOre+'.size', JSON.stringify(tempObj));
 
     let tempItems: any[];
     if (localStorage.getItem('saved-items')) {
@@ -74,7 +74,7 @@ let tempObj = this.filtersForm.value;
       tempItems = [];
     }
 
-    tempItems.push(this.selectedOre);
+    tempItems.push(this.selectedOre+'.size');
     let tempSet = new Set(tempItems);
 
     localStorage.setItem(

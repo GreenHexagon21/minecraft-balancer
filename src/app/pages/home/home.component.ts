@@ -19,7 +19,7 @@ interface DatapackObject {
   smeltingRecipes: Array<DatapackEntry>;
   craftingRecipes: Array<DatapackEntry>;
   oreFeatures: Array<DatapackEntry>;
-  oreSizes:Array<DatapackEntry>;
+  oreSizes: Array<DatapackEntry>;
   itemsTags: Array<DatapackEntry>;
 }
 
@@ -35,7 +35,7 @@ export class HomeComponent {
     smeltingRecipes: [],
     craftingRecipes: [],
     oreFeatures: [],
-    oreSizes:[],
+    oreSizes: [],
     itemsTags: [],
   };
 
@@ -87,8 +87,12 @@ export class HomeComponent {
 
       const savedItems: string[] = [];
 
-
       for (const entry of importedDatapack.oreFeatures ?? []) {
+        localStorage.setItem(entry.name, JSON.stringify(entry.value));
+        savedItems.push(entry.name);
+      }
+
+      for (const entry of importedDatapack.oreSizes ?? []) {
         localStorage.setItem(entry.name, JSON.stringify(entry.value));
         savedItems.push(entry.name);
       }
@@ -137,6 +141,7 @@ export class HomeComponent {
       'smeltingRecipes',
       'craftingRecipes',
       'oreFeatures',
+      'oreSizes',
       'itemsTags',
     ];
 
@@ -159,6 +164,7 @@ export class HomeComponent {
 
     let loadedBiome: any = {};
     const validOreValues = this.globals.oreGeneration.map((x) => x.value);
+    const validOreSizeValues = this.globals.oreSize.map((x) => x.value);
     const validBiomeValues = this.globals.biomes.map((x) => x.value);
     const validSmeltingValues = this.globals.smeltingRecipes.map(
       (x) => x.value,
@@ -174,6 +180,11 @@ export class HomeComponent {
 
       if (validOreValues.includes(element)) {
         this.fullDatapack.oreFeatures.push({ name: element, value: localCopy });
+      }
+
+      if (validOreSizeValues.includes(element)) {
+        console.log(element);
+        this.fullDatapack.oreSizes.push({ name: element, value: localCopy });
       }
 
       if (validBiomeValues.includes(element)) {
@@ -256,6 +267,7 @@ export class HomeComponent {
 
     const biomeFolder = root.folder('worldgen')?.folder('biome');
     const placedFeatureFolder = root.folder('worldgen')?.folder('placed_feature');
+    const configuredFeatureFolder = root.folder('worldgen')?.folder('configured_feature');
     const recipeFolder = root.folder('recipe');
     const itemTagFolder = root.folder('tags')?.folder('item');
     const blockTagFolder = root.folder('tags')?.folder('block');
@@ -265,7 +277,8 @@ export class HomeComponent {
       !placedFeatureFolder ||
       !recipeFolder ||
       !itemTagFolder ||
-      !blockTagFolder
+      !blockTagFolder ||
+      !configuredFeatureFolder
     ) {
       return;
     }
@@ -334,6 +347,32 @@ export class HomeComponent {
       });
 
       placedFeatureFolder.file(
+        fileName,
+        JSON.stringify(this.removeNullValues(data), null, 2),
+      );
+    }
+
+    for (const element of this.fullDatapack.oreSizes) {
+      const fileName = this.fileNameProcessor(element.name);
+
+      const data: any = await firstValueFrom(
+        this.jsonLoaderService.getJsonData('worldgen/configured_feature/' + element.name)
+      );
+
+      const sizeValue =
+        element.value?.size !== null && element.value?.size !== undefined
+          ? Number(element.value.size)
+          : Number(element.value);
+
+      if (!Number.isNaN(sizeValue)) {
+        if (!data.config) {
+          data.config = {};
+        }
+
+        data.config.size = sizeValue;
+      }
+
+      configuredFeatureFolder.file(
         fileName,
         JSON.stringify(this.removeNullValues(data), null, 2),
       );

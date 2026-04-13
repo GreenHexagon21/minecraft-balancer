@@ -56,8 +56,6 @@ export class BiomeComponent {
 
     if (localCopy.length != 0) {
       this.loadedBiome = localCopy;
-      console.log(event);
-      console.log(localCopy);
       this.jsonLoaderService
         .getJsonData(this.jsonPath + event.value)
         .subscribe((data: any) => {
@@ -77,6 +75,14 @@ export class BiomeComponent {
     }
   }
 
+  uncheck() {
+      for (const ore of this.globals.oreGeneration) {
+    this.oreChecks[ore.value] = false;
+  }
+
+  this.updateBiomeFeatures();
+  }
+
   setOreChecks() {
     this.biomeFeatures = this.loadedBiome?.features?.[6] ?? [];
 
@@ -94,13 +100,10 @@ export class BiomeComponent {
       .map(ore => 'minecraft:' + ore.value.replace('.json', ''));
 
     this.loadedBiome['features'][6] = this.biomeFeatures;
-    console.log(this.loadedBiome['features'][6]);
   }
 
     save() {
     let tempObj = this.loadedBiome['features'][6];
-
-    console.log(this.loadedBiome['features'][6]);
     localStorage.setItem(this.selectedBiome, JSON.stringify(tempObj));
 
     let tempItems: any[];
