@@ -164,7 +164,7 @@ export class HomeComponent {
 
     let loadedBiome: any = {};
     const validOreValues = this.globals.oreGeneration.map((x) => x.value);
-    const validOreSizeValues = this.globals.oreSize.map((x) => x.value);
+    const validOreSizeValues = this.globals.oreSize.map((x) => x.value+'.size');
     const validBiomeValues = this.globals.biomes.map((x) => x.value);
     const validSmeltingValues = this.globals.smeltingRecipes.map(
       (x) => x.value,
@@ -183,8 +183,8 @@ export class HomeComponent {
       }
 
       if (validOreSizeValues.includes(element)) {
-        console.log(element);
         this.fullDatapack.oreSizes.push({ name: element, value: localCopy });
+          console.log(this.fullDatapack.oreSizes);
       }
 
       if (validBiomeValues.includes(element)) {
@@ -354,9 +354,10 @@ export class HomeComponent {
 
     for (const element of this.fullDatapack.oreSizes) {
       const fileName = this.fileNameProcessor(element.name);
+      console.log(fileName);
 
       const data: any = await firstValueFrom(
-        this.jsonLoaderService.getJsonData('worldgen/configured_feature/' + element.name)
+        this.jsonLoaderService.getJsonData('worldgen/configured_feature/' + element.name.replaceAll('.size', ''))
       );
 
       const sizeValue =
@@ -397,6 +398,7 @@ export class HomeComponent {
     const cleaned = name
       .replaceAll('.json', '')
       .replaceAll('.recipe', '')
+      .replaceAll('.size', '')
       .replaceAll('.tags', '');
     const existingTag = this.globals.tags.find(
       (element) => element.displayName == cleaned,
