@@ -28,14 +28,14 @@
 
       @if (isVisible('maxHeight')) {
         <mat-form-field class="form-field">
-          <mat-label>Max height</mat-label>
+          <mat-label>Max height ({{max_type}})</mat-label>
           <input formControlName="maxHeight" matInput />
         </mat-form-field>
       }
 
       @if (isVisible('minHeight')) {
         <mat-form-field class="form-field">
-          <mat-label>Min height</mat-label>
+          <mat-label>Min height ({{min_type}})</mat-label>
           <input formControlName="minHeight" matInput />
         </mat-form-field>
       }

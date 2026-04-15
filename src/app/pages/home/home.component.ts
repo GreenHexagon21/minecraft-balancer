@@ -191,6 +191,7 @@ export class HomeComponent {
         loadedBiome = await firstValueFrom(
           this.jsonLoaderService.getJsonData('worldgen/biome/' + element),
         );
+        loadedBiome.features[6] = [];
         loadedBiome.features[7] = localCopy;
         this.fullDatapack.biomes.push({ name: element, value: loadedBiome });
       }
@@ -382,6 +383,13 @@ export class HomeComponent {
     for (const element of this.fullDatapack.itemsTags) {
       const fileName = this.fileNameProcessor(element.name);
       blockTagFolder.file(
+        fileName,
+        JSON.stringify(this.removeNullValues(element.value), null, 2),
+      );
+    }
+        for (const element of this.fullDatapack.itemsTags) {
+      const fileName = this.fileNameProcessor(element.name);
+      itemTagFolder.file(
         fileName,
         JSON.stringify(this.removeNullValues(element.value), null, 2),
       );

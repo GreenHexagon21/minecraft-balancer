@@ -6,6 +6,8 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 
   export interface TagList {
     name: string;
@@ -15,14 +17,14 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-tag-sets',
-  imports: [SelectModule,FormsModule,MatButtonModule,MatInputModule],
+  imports: [SelectModule,FormsModule,MatButtonModule,MatInputModule,MultiSelectModule],
   templateUrl: './tag-sets.html',
   styleUrl: './tag-sets.scss',
 })
 export class TagSets {
 
   allItems:any;
-  selectedItem:any;
+  selectedItems:any;
   selectedTagList: TagList|undefined;
   tagList:TagList = {name: "", replace:true, values:[]};
   savedTagLists: Array<TagList> = [];
@@ -117,11 +119,15 @@ makeTagList() {
     console.log(this.savedTagLists );
   }
 
-  addTag() {
-    this.tagList.values.push("minecraft:"+this.selectedItem.name);
-    let tempSet = new Set(this.tagList.values);
-    this.tagList.values = Array.from(tempSet);
-    this.selectedItem = null;
+  addTags() {
+    console.log(this.selectedItems);
+    this.selectedItems.forEach((element: any) => {
+      this.tagList.values.push("minecraft:"+element.name);
+      let tempSet = new Set(this.tagList.values);
+      this.tagList.values = Array.from(tempSet);
+      this.selectedItems = [];
+    });
+   
   }
 
   removeTag(value: string) {

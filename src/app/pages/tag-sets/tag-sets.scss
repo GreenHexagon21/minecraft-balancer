@@ -1,12 +1,12 @@
-p-select {
+p-multiselect {
     margin-right: 1vw;
     margin-bottom: 1vh;
     width: 15vw;
     ::ng-deep {
-        .p-select-clear-icon {
+        .p-multiselect-clear-icon {
             color: #d7ffe0;
         }
-        .p-select-dropdown-icon {
+        .p-multiselect-dropdown-icon {
             color: #d7ffe0;
         }
     }
