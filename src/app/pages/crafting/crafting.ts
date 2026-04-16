@@ -25,6 +25,7 @@ export interface MinecraftCraftingShapedRecipe {
         damage_per_block: number;
       };
       'minecraft:custom_name'?: string | undefined;
+      'minecraft:max_damage'?: number | undefined;
     };
     count: number;
     id: string;
@@ -75,6 +76,7 @@ export class Crafting {
 
   toolRules: Array<ToolRuleEditor> = [];
   customToolName: string | undefined;
+  durability: number | undefined = undefined;
   damagePerBlock: number = 1;
   defaultMiningSpeed: number = 1.0;
 
@@ -149,6 +151,7 @@ export class Crafting {
   onCraftingRecipeSelectChanged(event: any) {
     this.toolRules = [];
     this.customToolName = '';
+    this.durability = 0;
     this.defaultMiningSpeed = 1;
     this.damagePerBlock = 1;
     this.newRecipeName = event?.value?.label ?? '';
@@ -185,6 +188,7 @@ export class Crafting {
 
       this.customToolName =
         localCopy.result.components['minecraft:custom_name'] ?? '';
+      this.durability = Number(localCopy.result.components['minecraft:max_damage']) ?? undefined;
       this.damagePerBlock = localTool.damage_per_block ?? 1;
       this.defaultMiningSpeed = localTool.default_mining_speed ?? 1;
 
@@ -322,6 +326,11 @@ export class Crafting {
     if (this.customToolName !== undefined && this.customToolName != '') {
       compiledRecipe.result.components['minecraft:custom_name'] =
         this.customToolName;
+    }
+
+        if (this.durability !== undefined) {
+      compiledRecipe.result.components['minecraft:max_damage'] =
+        Number(this.durability);
     }
 
     compiledRecipe.result.components['minecraft:tool'].rules =
