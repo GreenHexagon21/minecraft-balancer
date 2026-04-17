@@ -130,6 +130,13 @@ makeTagList() {
    
   }
 
+  reset() {
+    this.selectedItems = [];
+    this.tagList = {name: "", replace:true, values:[]};
+    this.currentListName = "";
+
+  }
+
   removeTag(value: string) {
     this.tagList.values = this.tagList.values.filter(v => v !== value);
   }
