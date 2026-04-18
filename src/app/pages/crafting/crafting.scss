@@ -1,7 +1,13 @@
 :host {
 
         ::ng-deep {
-        .p-select-clear-icon {
+        .p-multiselect-clear-icon {
+            color: #d7ffe0;
+        }
+        .p-multiselect-dropdown-icon {
+            color: #d7ffe0;
+        }
+                .p-select-clear-icon {
             color: #d7ffe0;
         }
         .p-select-dropdown-icon {
@@ -37,6 +43,14 @@
         .mat-mdc-form-field{
             margin-bottom: -1rem;
         }
+    }
+}
+.tool-rule {
+        p-select {
+        width: 10vw;
+    }
+    p-multiselect {
+        width: 20vw;
     }
 }
 .bottom-part {
