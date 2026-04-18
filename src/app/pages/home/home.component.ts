@@ -46,11 +46,15 @@ export class HomeComponent {
   tagItemPath = 'tags/item/';
   tagBlockPath = 'tags/block/';
 
+  private readonly finishAudio = new Audio('/assets/sounds/complete.wav');
+
   constructor(
     private jsonLoaderService: JsonLoaderService,
     private fb: FormBuilder,
     public globals: Globals,
-  ) {}
+  ) {
+    this.finishAudio.preload = 'auto';
+  }
 
   downloadFullDatapackJson() {
     const jsonString = JSON.stringify(this.fullDatapack, null, 2);
@@ -63,6 +67,10 @@ export class HomeComponent {
     a.click();
 
     window.URL.revokeObjectURL(url);
+    this.finishAudio.currentTime = 0;
+    this.finishAudio.play().catch((err) => {
+      console.error('Audio playback failed:', err);
+    });
   }
 
   clearLocalStorage() {
@@ -118,7 +126,10 @@ export class HomeComponent {
         savedItems.push(entry.name);
       }
 
-      localStorage.setItem('saved-items', JSON.stringify([...new Set(savedItems)]));
+      localStorage.setItem(
+        'saved-items',
+        JSON.stringify([...new Set(savedItems)]),
+      );
 
       this.fullDatapack = importedDatapack;
 
@@ -128,6 +139,10 @@ export class HomeComponent {
       alert('Invalid datapack JSON file.');
     } finally {
       input.value = '';
+      this.finishAudio.currentTime = 0;
+      this.finishAudio.play().catch((err) => {
+        console.error('Audio playback failed:', err);
+      });
     }
   }
 
@@ -164,7 +179,9 @@ export class HomeComponent {
 
     let loadedBiome: any = {};
     const validOreValues = this.globals.oreGeneration.map((x) => x.value);
-    const validOreSizeValues = this.globals.oreSize.map((x) => x.value+'.size');
+    const validOreSizeValues = this.globals.oreSize.map(
+      (x) => x.value + '.size',
+    );
     const validBiomeValues = this.globals.biomes.map((x) => x.value);
     const validSmeltingValues = this.globals.smeltingRecipes.map(
       (x) => x.value,
@@ -184,7 +201,7 @@ export class HomeComponent {
 
       if (validOreSizeValues.includes(element)) {
         this.fullDatapack.oreSizes.push({ name: element, value: localCopy });
-          console.log(this.fullDatapack.oreSizes);
+        console.log(this.fullDatapack.oreSizes);
       }
 
       if (validBiomeValues.includes(element)) {
@@ -267,8 +284,12 @@ export class HomeComponent {
     }
 
     const biomeFolder = root.folder('worldgen')?.folder('biome');
-    const placedFeatureFolder = root.folder('worldgen')?.folder('placed_feature');
-    const configuredFeatureFolder = root.folder('worldgen')?.folder('configured_feature');
+    const placedFeatureFolder = root
+      .folder('worldgen')
+      ?.folder('placed_feature');
+    const configuredFeatureFolder = root
+      .folder('worldgen')
+      ?.folder('configured_feature');
     const recipeFolder = root.folder('recipe');
     const itemTagFolder = root.folder('tags')?.folder('item');
     const blockTagFolder = root.folder('tags')?.folder('block');
@@ -286,10 +307,7 @@ export class HomeComponent {
 
     for (const element of this.fullDatapack.biomes) {
       const fileName = this.fileNameProcessor(element.name);
-      biomeFolder.file(
-        fileName,
-        JSON.stringify(element.value, null, 2),
-      );
+      biomeFolder.file(fileName, JSON.stringify(element.value, null, 2));
     }
 
     for (const element of this.fullDatapack.smeltingRecipes) {
@@ -312,14 +330,15 @@ export class HomeComponent {
       const fileName = this.fileNameProcessor(element.name);
 
       const data: any = await firstValueFrom(
-        this.jsonLoaderService.getJsonData(this.oreFeaturePath + element.name)
+        this.jsonLoaderService.getJsonData(this.oreFeaturePath + element.name),
       );
 
       const countValue = Number(element.value.count);
       const minHeightValue = Number(element.value.minHeight);
       const maxHeightValue = Number(element.value.maxHeight);
       const rarityValue =
-        element.value.rarityFilter !== null && element.value.rarityFilter !== undefined
+        element.value.rarityFilter !== null &&
+        element.value.rarityFilter !== undefined
           ? Number(element.value.rarityFilter)
           : null;
 
@@ -351,6 +370,10 @@ export class HomeComponent {
         fileName,
         JSON.stringify(this.removeNullValues(data), null, 2),
       );
+      this.finishAudio.currentTime = 0;
+      this.finishAudio.play().catch((err) => {
+        console.error('Audio playback failed:', err);
+      });
     }
 
     for (const element of this.fullDatapack.oreSizes) {
@@ -358,7 +381,9 @@ export class HomeComponent {
       console.log(fileName);
 
       const data: any = await firstValueFrom(
-        this.jsonLoaderService.getJsonData('worldgen/configured_feature/' + element.name.replaceAll('.size', ''))
+        this.jsonLoaderService.getJsonData(
+          'worldgen/configured_feature/' + element.name.replaceAll('.size', ''),
+        ),
       );
 
       const sizeValue =
@@ -387,7 +412,7 @@ export class HomeComponent {
         JSON.stringify(this.removeNullValues(element.value), null, 2),
       );
     }
-        for (const element of this.fullDatapack.itemsTags) {
+    for (const element of this.fullDatapack.itemsTags) {
       const fileName = this.fileNameProcessor(element.name);
       itemTagFolder.file(
         fileName,
@@ -423,13 +448,13 @@ export class HomeComponent {
   removeNullValues<T>(input: T): T {
     if (Array.isArray(input)) {
       return input
-        .map(item => this.removeNullValues(item))
-        .filter(item => item !== null) as unknown as T;
+        .map((item) => this.removeNullValues(item))
+        .filter((item) => item !== null) as unknown as T;
     }
 
     if (input !== null && typeof input === 'object') {
-      return Object.entries(input as Record<string, any>)
-        .reduce((acc, [key, value]) => {
+      return Object.entries(input as Record<string, any>).reduce(
+        (acc, [key, value]) => {
           if (value === null) {
             return acc;
           }
@@ -438,13 +463,18 @@ export class HomeComponent {
 
           if (
             cleanedValue !== null &&
-            !(typeof cleanedValue === 'object' && Object.keys(cleanedValue).length === 0)
+            !(
+              typeof cleanedValue === 'object' &&
+              Object.keys(cleanedValue).length === 0
+            )
           ) {
             acc[key] = cleanedValue;
           }
 
           return acc;
-        }, {} as Record<string, any>) as T;
+        },
+        {} as Record<string, any>,
+      ) as T;
     }
 
     return input;

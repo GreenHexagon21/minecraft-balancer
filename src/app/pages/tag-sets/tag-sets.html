@@ -22,7 +22,7 @@
 </div>
 <h4>You can select your desired item you want to inlcude using this dropdown</h4>
 <div class="item-selector">
-      <p-multiselect id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
+      <p-multiselect (onChange)="onSelectChanged()" id="itemSelect" [options]="allItems" [optionLabel]="'displayName'" [lazy]="true" [virtualScroll]="true"
             [virtualScrollItemSize]="32" [virtualScrollOptions]="allItems" [filter]="true" filterBy="name"
             [showClear]="true" [(ngModel)]="selectedItems" placeholder="Select an item" />
       <button class="add-btn" (click)="addTags()" matButton="filled">Add selected tags to set</button>

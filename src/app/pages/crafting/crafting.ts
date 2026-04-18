@@ -84,12 +84,17 @@ export class Crafting {
     { label: 'Single', value: 'single' },
     { label: 'Multiple', value: 'multiple' },
   ];
+  private readonly popAudio = new Audio('/assets/sounds/pop.wav');
 
   constructor(
     private jsonLoaderService: JsonLoaderService,
     private fb: FormBuilder,
     public globals: Globals,
-  ) {}
+  ) {
+    this.popAudio.preload = 'auto';
+  }
+
+
 
   ngOnInit(): void {
     this.jsonLoaderService.getJsonData('items.json').subscribe((data: any) => {
@@ -237,6 +242,13 @@ export class Crafting {
           });
       }
     }
+  }
+
+  onMultiselectClicked() {
+      this.popAudio.currentTime = 0;
+      this.popAudio.play().catch((err) => {
+        console.error('Audio playback failed:', err);
+      });
   }
 
   saveRecipe() {
@@ -462,6 +474,7 @@ export class Crafting {
   }
 
   onSelectChanged(event:any) {
-    console.log(event);
+    this.onMultiselectClicked();
+
   }
 }
